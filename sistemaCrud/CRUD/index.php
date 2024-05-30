@@ -32,7 +32,7 @@ require "dbconfig/conexao.php";
   </div>
   <div class="px-2 d-flex w-100 bg-danger bg-gradient shadow rounded">
     <div>
-      <a class="fs-3 text-decoration-none text-white" href="verify/deslogar.php">Funcionários</a>
+      <a class="fs-3 text-decoration-none text-white" href="checar/deslogar.php">Funcionários</a>
       <p class="fs-5">Total: 5</p>
     </div>
   </div>

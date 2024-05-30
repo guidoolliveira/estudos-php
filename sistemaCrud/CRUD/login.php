@@ -30,7 +30,7 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
                             ?>
                         </span>
                     </div>
-                <form action="verify/logar.php" method="post" data-parsley-validate novalidate>
+                <form action="checar/logar.php" method="post" data-parsley-validate novalidate>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="login">Email ou Usuário</label>
                         <input type="text" id="login" name="login" class="form-control form-control-lg"
@@ -45,8 +45,8 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
                     </div>
 
                     <div class="form-check mb-0">
-                        <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id=>
-                        <label class="form-check-label" for="form2Example3">
+                        <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="">
+                        <label class="form-check-label" for="">
                             Mostrar Senha
                         </label>
                     </div>

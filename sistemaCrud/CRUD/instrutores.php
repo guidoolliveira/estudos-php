@@ -128,14 +128,11 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body d-flex justify-content-center">
-        <form action="verify/instrutor/cadastrar.php" method="post" novalidate>
+        <form action="checar/instrutor/cadastrar.php" method="post" data-parsley-validate novalidate>
           <div class="row">
             <div class="mb-3 col-12">
               <span class="form-label">Nome</span>
               <input type="text" class="form-control" name="nome" placeholder="Nome do instrutor" required>
-              <div class="invalid-feedback">
-                Preencha este campo!
-              </div>
             </div>
           </div>
           <div class="row">
@@ -150,18 +147,12 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   echo "<option value=" . $especializacao["id"] . ">" . $especializacao["nomeEspecializacao"] . "</option>";
                 }
                 ?>
-                <div class="invalid-feedback">
-                  Preencha este campo!
-                </div>
               </select>
             </div>
             <div class="mb-3 col-sm-6">
               <span class="form-label">Celular</span>
               <input type="text" class="form-control celular" name="celular" placeholder="xx xxxxx xxxx" maxlength="15"
                 required>
-              <div class="invalid-feedback">
-                Preencha este campo!
-              </div>
             </div>
           </div>
 
@@ -185,7 +176,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="verify/cadEspecializacao.php" method="post" class="needs-validation" novalidate>
+        <form action="checar/cadEspecializacao.php" method="post" class="needs-validation" novalidate>
           <div class="mb-3 mx-4">
             <span class="form-label">Nome</span>
             <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
@@ -216,7 +207,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="modal-body">
           <span>Está ação é irreversível!</span>
-          <form method='post' action='verify/instrutor/deletar.php'>
+          <form method='post' action='checar/instrutor/deletar.php'>
             <input type='hidden' name='id' value="<?php echo $instrutor['idinstrutores']; ?>" />
             <input type='hidden' name='nome' value="<?php echo $instrutor['nome']; ?>" />
 
@@ -239,18 +230,15 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <button type="button" class="btn-close"  aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="verify/instrutor/editar.php" method="post" class="needs-validation" novalidate>
+          <form action="checar/instrutor/editar.php" method="post" data-parsley-validate novalidate>
             <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores']; ?>">
             <div class="mb-3 mx-4">
               <span class="form-label">Nome</span>
               <input type="text" class="form-control" name="nome" value="<?php echo $instrutor['nome']; ?>" required>
-              <div class="invalid-feedback">
-                Preencha este campo!
-              </div>
             </div>
             <div class="mb-3 mx-4">
               <span class="form-label">Especialização</span>
-              <select class="form-select" name="idespecializacao"required>
+              <select class="form-select" name="idespecializacao" required>
                 <?php
                 $sql = "SELECT * FROM especializacao;";
                 $stmt = $conn->prepare($sql);
@@ -264,18 +252,12 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   }
                 }
                 ?>
-                <div class="invalid-feedback">
-                  Preencha este campo!
-                </div>
               </select>
             </div>
             <div class="mb-3 mx-4">
               <span class="form-label">Celular</span>
               <input type="text" class="form-control celular" name="celular" value="<?php echo $instrutor['celular']; ?>"
                 maxlength="15" required>
-              <div class="invalid-feedback">
-                Preencha este campo!
-              </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -322,5 +304,5 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </script>
 <?php
 require "template/footer.php";
-require "verify/validarInput.php";
+require "checar/validarInput.php";
 ?>

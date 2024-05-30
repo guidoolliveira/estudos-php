@@ -103,7 +103,7 @@ foreach ($result as $dados)
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <a href="./verify/deslogar.php"><button type="button" class="btn btn-danger">Sair da conta</button></a>
+            <a href="checar/deslogar.php"><button type="button" class="btn btn-danger">Sair da conta</button></a>
           </div>
         </div>
       </div>

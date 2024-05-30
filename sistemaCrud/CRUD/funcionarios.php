@@ -26,10 +26,10 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
       </div>";
     }
-    if (isset($_GET["delete"]) && $_GET["delete"] == "ok") {
+    if (isset($_GET["deletar"]) && $_GET["deletar"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
-            O fun$funcionario ' . $_GET["nome-fun$funcionario"] . ' foi deletado com sucesso!
+            O funcionário ' . $_GET["nome-funcionario"] . ' foi deletado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -38,7 +38,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["edit"]) && $_GET["edit"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
-            O fun$funcionario ' . $_GET["nome-fun$funcionario"] . ' foi editado com sucesso!
+            O funcionário ' . $_GET["nome-funcionario"] . ' foi editado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -47,8 +47,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     ?>
-    <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal"
-        data-bs-target="#modalCadastrar">Cadastrar</button>
+    <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>
 
     <?php
     if (count($login) > 0) { ?>
@@ -60,6 +59,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Usuario</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,6 +67,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($login as $funcionario) {
                         echo "<tr>";
                         echo "<td>" . $funcionario["id"] . "</td>";
+                        echo "<td>" . $funcionario["nome"] . "</td>";
                         echo "<td>" . $funcionario["email"] . "</td>";
                         echo "<td>" . $funcionario["usuario"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
@@ -91,21 +92,22 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php foreach ($login as $funcionario) { ?>
+    <!-- Modal deletar -->
     <div class="modal fade" id="modalDeletar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static"
         data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o funcionario <?php
-                    echo $funcionario['usuario']
+                    echo $funcionario['nome']
                         ?>? </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <span>Está ação é irreversível!</span>
-                    <form method='post' action='verify/fun$funcionario/deletar.php'>
+                    <form method='post' action='checar/funcionario/deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $funcionario['id']; ?>" />
-                        <input type='hidden' name='nome' value="<?php echo $funcionario['usuario']; ?>" />
+                        <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" />
 
                 </div>
                 <div class="modal-footer">
@@ -126,35 +128,26 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="verify/funcionario/editar.php" method="post" class="needs-validation" novalidate>
+                    <form action="checar/funcionario/editar.php" method="post" data-parsley-validate novalidate>
                         <input type="hidden" name="id" value="<?php echo $funcionario['id']; ?>">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome"
-                                value="<?php echo $funcionario['nome']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <input type="text" class="form-control" name="nome" value="<?php echo $funcionario['nome']; ?>"
+                                required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Email</span>
                             <input type="text" class="form-control" name="email"
                                 value="<?php echo $funcionario['email']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control celular" name="usuario"
+                            <input type="text" class="form-control" name="usuario"
                                 value="<?php echo $funcionario['usuario']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="text" class="form-control celular" name="senha"
+                            <input type="text" class="form-control " name="senha"
                                 value="<?php echo $funcionario['senha']; ?>" required>
                             <div class="invalid-feedback">
                                 Preencha este campo!
@@ -169,48 +162,39 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalCadastrar" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal Cadastrar -->
+    <div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Funcionario</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Funcionario</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="verify/funcionario/editar.php" method="post" class="needs-validation" novalidate>
-                        <input type="hidden" name="id" value="<?php echo $funcionario['id']; ?>">
+                    <form action="checar/funcionario/cadastrar.php" method="post" data-parsley-validate novalidate>
+                        <input type="hidden" name="id">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome"
-                                value="<?php echo $funcionario['nome']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <input type="text" class="form-control" name="nome" value="" required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Email</span>
-                            <input type="text" class="form-control" name="email"
-                                value="<?php echo $funcionario['email']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <input type="email" class="form-control" name="email" value="" required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control celular" name="usuario"
-                                value="<?php echo $funcionario['usuario']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <input type="text" class="form-control" name="usuario" value="" required>
                         </div>
-                        <div class="mb-3 mx-4">
+                        <div class="mb-1 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="text" class="form-control celular" name="senha"
-                                value="<?php echo $funcionario['senha']; ?>" required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <input type="password" class="form-control" name="senha" value="" id="senha" required>
+                        </div>
+                        <div class="form-check mx-4">
+                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id="">
+                            <label class="form-check-label" for="">
+                                Mostrar Senha
+                            </label>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -226,5 +210,5 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php
 require "template/footer.php";
-require "verify/validarInput.php";
+require "checar/validarInput.php";
 ?>

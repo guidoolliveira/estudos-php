@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `cursos` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-INSERT INTO login (email, usuario, senha, nivelAcesso) VALUES ("admin@gmail.com" , "admin" ,"12345678" ,"1");
-INSERT INTO login (email, usuario, senha, nivelAcesso) VALUES ("funcionario@gmail.com" , "funcionario" ,"12345678" ,"0");
+INSERT INTO login (nome, email, usuario, senha, nivelAcesso) VALUES ("administrador" , "admin@gmail.com" , "admin" ,"12345678" ,"1");
+INSERT INTO login (nome, email, usuario, senha, nivelAcesso) VALUES ("funcionario" , "funcionario@gmail.com" , "funcionario" ,"12345678" ,"0");
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
