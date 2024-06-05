@@ -95,8 +95,9 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $stmt->bindValue("idespecializacao", $idespecializacao);
             $stmt->execute();
             $especializacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($especializacoes as $especializacao)
+            foreach ($especializacoes as $especializacao) {
               echo "<td class='text-nowrap'>" . $especializacao["nomeEspecializacao"] . "</td>";
+            }
             echo "<td  class='text-nowrap'>" . $instrutor["celular"] . "</td>";
             if ($_SESSION["acesso"] == 1) {
               echo "<td class='text-nowrap' ><span>

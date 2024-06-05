@@ -183,22 +183,39 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span class="form-label">Nome</span>
                         <input type="text" class="form-control" name="nome" value="" required>
                     </div>
-                    <div class="mb-3 col-6 mx-4">
-                        <span class="form-label">Quantidade</span>
-                        <input type="email" class="form-control" name="quantidade" value="" required>
+                    <div class="mx-4">
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <span class="form-label">Quantidade</span>
+                                <input type="number" class="form-control" name="quantidade" value="" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="form-label">Preço</span>
+                                <input type="number" step="0.01" class="form-control" name="preco" value="" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3 col-6">
-                        <span class="form-label">Preço</span>
-                        <input type="text" class="form-control" name="usuario" value="" required>
+                    <div class="mb-3 mx-4">
+                        <span class="form-label">Fornecedor</span>
+                        <input type="text" class="form-control" name="fornecedor" value="" id="" required>
                     </div>
-                    <div class="mb-1 mx-4">
-                        <span class="form-label">Senha</span>
-                        <input type="password" class="form-control" name="senha" value="" id="senha2" required>
+                    <div class="mb-3 mx-4">
+                        <span class="form-label">Categoria</span>
+                        <select class="form-select" name="idcategoria" required>
+                            <?php $sql = "SELECT * FROM categoria;";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($categorias as $categoria) {
+                                echo "<option value=" . $categoria["id"] . ">" . $categoria["nome"] . "</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+                <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>
         </div>

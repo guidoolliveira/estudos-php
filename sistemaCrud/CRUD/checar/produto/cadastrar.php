@@ -1,40 +1,21 @@
 <?php
-if (isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["senha"]) && !empty($_POST["senha"])) {
+if (isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["quantidade"]) && !empty($_POST["quantidade"]) && isset($_POST["preco"]) && !empty($_POST["preco"]) && isset($_POST["fornecedor"]) && !empty($_POST["fornecedor"]) && isset($_POST["idcategoria"]) && !empty($_POST["idcategoria"])) {
     require ("../../dbconfig/conexao.php");
     $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $usuario = $_POST["usuario"];
-    $senha = $_POST["senha"];
-
-    if ($email && $usuario && $senha) {
-        $sql = "SELECT * FROM login WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(":email", $email);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            header("Location: ../../funcionarios.php?erro=1");
-        } else {
-            $sql = "SELECT * FROM login WHERE usuario = :usuario";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindValue(":usuario", $usuario);
-            $stmt->execute();
-            // erro 1 = email-ja-cadastrado
-            // erro 2 = usuario-ja-cadastrado
-            // erro 3 = preencha-todos-os-campos
-            if ($stmt->rowCount() > 0) {
-                header("Location: ../../funcionarios.php?erro=2");
-            } else {
-                $sql = "INSERT INTO login (nome,email,usuario,senha) VALUES (:nome, :email, :usuario, :senha)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(":nome", $nome);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":usuario", $usuario);
-                $stmt->bindValue(":senha", $senha);
-                $stmt->execute();
-                header("Location: ../../funcionarios.php?resposta=ok");
-            }
-        }
-    }
+    $quantidade = $_POST["quantidade"];
+    $preco = $_POST["preco"];
+    $fornecedor = $_POST["fornecedor"];
+    $idcategoria = $_POST["idcategoria"];
+    $sql = "INSERT INTO produtos(nome, quantidade, preco, fornecedor, idcategoria) VALUES(:nome, :quantidade, :preco, :fornecedor, :idcategoria);";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue("nome", $nome);
+    $stmt->bindValue("quantidade", $quantidade);
+    $stmt->bindValue("preco", $preco);
+    $stmt->bindValue("fornecedor", $fornecedor);
+    $stmt->bindValue("idcategoria", $idcategoria);
+    $stmt->execute();
+    header("Location: ../../produtos.php");
 } else {
-    header("Location: ../../funcionarios.php?erro=3");
+    // Campos nao preenchidos
+    header("Location: ../../instrutores.php?erro=1");
 }
