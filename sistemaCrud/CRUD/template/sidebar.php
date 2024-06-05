@@ -9,7 +9,7 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $dados)
 ?>
-<div id="bdSidebar" data-bs-backdrop="static" class="h-100 d-flex flex-column bg-body shadow flex-shrink-0 p-3 text-white offcanvas offcanvas-start">
+<div id="bdSidebar" data-bs-backdrop="false" data-bs-scroll="true" class="h-100 d-flex flex-column bg-body shadow flex-shrink-0 p-3 text-white offcanvas offcanvas-start">
   <div class="d-flex justify-content-between">
     <a href="index.php" class="navbar-brand">
       <h5><i style="font-size: 28px;" class="fa-solid fa-shop me-2"></i> PresidiOnStock</h5>

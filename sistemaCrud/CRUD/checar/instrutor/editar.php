@@ -1,7 +1,7 @@
 <?php
 require "../../dbconfig/conexao.php";
 
-if (isset($_POST["id"]) && !empty($_POST["id"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["idespecializacao"]) && !empty($_POST["login"]) && isset($_POST["celular"]) && !empty($_POST["celular"])) {
+if (isset($_POST["id"]) && !empty($_POST["id"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["idespecializacao"]) && isset($_POST["celular"]) && !empty($_POST["celular"])) {
   $id = $_POST["id"];
   $nome = $_POST["nome"];
   $idespecializacao = $_POST["idespecializacao"];

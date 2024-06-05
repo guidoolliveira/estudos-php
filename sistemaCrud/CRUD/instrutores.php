@@ -227,7 +227,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Instrutor</h1>
-          <button type="button" class="btn-close"  aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="checar/instrutor/editar.php" method="post" data-parsley-validate novalidate>

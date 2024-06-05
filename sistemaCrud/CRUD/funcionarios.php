@@ -99,7 +99,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o funcionario <?php
-                    echo $funcionario['nome']
+                    echo $funcionario['usuario']
                         ?>? </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -167,7 +167,11 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <!-- Modal Cadastrar -->
+     <?php
+    }
+    ?>
+    
+<!-- Modal Cadastrar -->
     <div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -193,7 +197,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-1 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha" value="" id="senha2    " required>
+                            <input type="password" class="form-control" name="senha" value="" id="senha2" required>
                         </div>
                         <div class="form-check mx-4">
                             <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha2()" value="" id="">
@@ -204,15 +208,13 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <?php
-}
-?>
+   
 <?php
 require "template/footer.php";
 require "checar/validarInput.php";

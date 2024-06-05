@@ -28,7 +28,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["deletar"]) && $_GET["deletar"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
-            O funcionário ' . $_GET["nome-funcionario"] . ' foi deletado com sucesso!
+            O funcionário ' . $_GET["nome-pro$produto"] . ' foi deletado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -37,7 +37,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["edit"]) && $_GET["edit"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
-            O funcionário ' . $_GET["nome-funcionario"] . ' foi editado com sucesso!
+            O funcionário ' . $_GET["nome-pro$produto"] . ' foi editado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -55,16 +55,16 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <thead class="">
                     <tr>
                         <th>Id</th>
-                        <th>Nome</th> 
+                        <th>Nome</th>
                         <th>Quantidade</th>
                         <th>Preço</th>
                         <th>Fornecedor</th>
                         <th>Categoria</th>
                         <?php
-                            if ($_SESSION["acesso"] == 1) {
-                                echo "<th>Ações</th>";
-                            }
-                         ?>
+                        if ($_SESSION["acesso"] == 1) {
+                            echo "<th>Ações</th>";
+                        }
+                        ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +75,8 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         echo "<td>" . $produto["nome"] . "</td>";
                         echo "<td>" . $produto["quantidade"] . "</td>";
                         echo "<td>" . $produto["preco"] . "</td>";
+                        echo "<td>" . $produto["fornecedor"] . "</td>";
+                        echo "<td>" . $produto["idcategoria"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
                             echo "<td><span>
               <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $produto['id'] . "'>Excluir</button>
@@ -91,11 +93,9 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
     } else {
         echo '<h3 class="text-warning text-center">Ainda não há intrutores cadastrados!</h3>';
-
     } ?>
 </div>
 </div>
-
 <?php foreach ($produtos as $produto) { ?>
     <!-- Modal deletar -->
     <div class="modal fade" id="modalDeletar<?php echo $produto['id']; ?>" data-bs-backdrop="static"
@@ -112,7 +112,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <span>Está ação é irreversível!</span>
                     <form method='post' action='checar/produto/deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $produto['id']; ?>" />
-                        <input type='hidden' name='nome' value="<?php echo $produto['nome']; ?>" /> 
+                        <input type='hidden' name='nome' value="<?php echo $produto['nome']; ?>" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -122,76 +122,39 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <!-- Modal Editar funcionario -->
-    <div class="modal fade" id="modalEditar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal Editar produto -->
+    <div class="modal fade" id="modalEditar<?php echo $produto['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Funcionario</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar pro$produto</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="checar/funcionario/editar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id" value="<?php echo $funcionario['id']; ?>">
+                    <form action="checar/pro$produto/editar.php" method="post" data-parsley-validate novalidate>
+                        <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="<?php echo $funcionario['nome']; ?>"
+                            <input type="text" class="form-control" name="nome" value="<?php echo $produto['nome']; ?>"
                                 required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Email</span>
-                            <input type="text" class="form-control" name="email"
-                                value="<?php echo $funcionario['email']; ?>" required>
+                            <input type="text" class="form-control" name="email" value="<?php echo $produto['email']; ?>"
+                                required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Usuário</span>
                             <input type="text" class="form-control" name="usuario"
-                                value="<?php echo $funcionario['usuario']; ?>" required>
+                                value="<?php echo $produto['usuario']; ?>" required>
                         </div>
                         <div class="mb-1 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha"id="senha"
-                                value="<?php echo $funcionario['senha']; ?>" required>
+                            <input type="password" class="form-control" name="senha" id="senha"
+                                value="<?php echo $produto['senha']; ?>" required>
                         </div>
-                        
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="submit" class="btn btn-primary">Editar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Cadastrar -->
-    <div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Produto</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="checar/funcionario/cadastrar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id">
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="" required>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Email</span>
-                            <input type="email" class="form-control" name="email" value="" required>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control" name="usuario" value="" required>
-                        </div>
-                        <div class="mb-1 mx-4">
-                            <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha" value="" id="senha2    " required>
-                        </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
@@ -204,6 +167,43 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php
 }
 ?>
+<!-- Modal Cadastrar -->
+<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Produto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="checar/produto/cadastrar.php" method="post" data-parsley-validate novalidate>
+                    <input type="hidden" name="id">
+                    <div class="mb-3 mx-4">
+                        <span class="form-label">Nome</span>
+                        <input type="text" class="form-control" name="nome" value="" required>
+                    </div>
+                    <div class="mb-3 col-6 mx-4">
+                        <span class="form-label">Quantidade</span>
+                        <input type="email" class="form-control" name="quantidade" value="" required>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <span class="form-label">Preço</span>
+                        <input type="text" class="form-control" name="usuario" value="" required>
+                    </div>
+                    <div class="mb-1 mx-4">
+                        <span class="form-label">Senha</span>
+                        <input type="password" class="form-control" name="senha" value="" id="senha2" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <?php
 require "template/footer.php";
 require "checar/validarInput.php";
