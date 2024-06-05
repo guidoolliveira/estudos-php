@@ -9,19 +9,6 @@ function mostrarSenha(){
     }
 
 }
-function mostrarSenha2(){
-    let senha = document.getElementById("senha2");
-
-    if(senha.type == "password"){
-        senha.setAttribute("type", "text");
-
-    } else{
-        senha.setAttribute("type", "password");
-    }
-
-}
-
-
 /* Máscaras ER */
 function mascara(obj,funcao){
     v_obj=obj

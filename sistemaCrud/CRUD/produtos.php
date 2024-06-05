@@ -69,7 +69,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($proutos as $produto) {
+                    foreach ($produtos as $produto) {
                         echo "<tr>";
                         echo "<td>" . $produto["id"] . "</td>";
                         echo "<td>" . $produto["nome"] . "</td>";
@@ -78,12 +78,14 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         echo "<td>" . $produto["fornecedor"] . "</td>";
                         echo "<td>" . $produto["idcategoria"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
-                            echo "<td><span>
-              <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $produto['id'] . "'>Excluir</button>
-              <button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditar" . $produto['id'] . "'>Editar</button>
-              </span>
-          </td>";
+                            echo "<td>
+                                <span>
+                                    <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $produto['id'] . "'>Excluir</button>
+                                    <button class='btn btn-primary btn-sm' data-bs-toggle='modal'                     data-bs-target='#modalEditar" . $produto['id'] . "'>Editar</button>
+                                </span>
+                            </td>";
                         }
+
                         echo "</tr>";
                     }
                     ?>
@@ -132,33 +134,46 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="checar/pro$produto/editar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
+                    <form action="checar/produto/cadastrar.php" method="post" data-parsley-validate novalidate>
+                        <input type="hidden" name="id">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="<?php echo $produto['nome']; ?>"
-                                required>
+                            <input type="text" class="form-control" name="nome" value="
+                            <?php echo $produto['nome'];?> " required>
+                        </div>
+                        <div class="mx-4">
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <span class="form-label">Quantidade</span>
+                                    <input type="number" class="form-control" name="quantidade" value="<?php echo $produto['quantidade'];?>" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="form-label">Preço</span>
+                                    <input type="number" step="0.01" class="form-control" name="preco" value="<?php echo $produto['preco'];?>" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Email</span>
-                            <input type="text" class="form-control" name="email" value="<?php echo $produto['email']; ?>"
-                                required>
+                            <span class="form-label">Fornecedor</span>
+                            <input type="text" class="form-control" name="fornecedor" value="<?php echo $produto['fornecedor'];?>" id="" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control" name="usuario"
-                                value="<?php echo $produto['usuario']; ?>" required>
+                            <span class="form-label">Categoria</span>
+                            <select class="form-select" name="idcategoria" required>
+                                <?php $sql = "SELECT * FROM categoria;";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+                                $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($categorias as $categoria) {
+                                    echo "<option value=" . $categoria["id"] . ">" . $categoria["nome"] . "</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <div class="mb-1 mx-4">
-                            <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha" id="senha"
-                                value="<?php echo $produto['senha']; ?>" required>
-                        </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+                    <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                     </form>
                 </div>
             </div>

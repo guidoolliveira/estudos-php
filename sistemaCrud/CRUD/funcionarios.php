@@ -144,19 +144,13 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" class="form-control" name="usuario"
                                 value="<?php echo $funcionario['usuario']; ?>" required>
                         </div>
-                        <div class="mb-1 mx-4">
+                        <div class="mb-3 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha"id="senha"
+                            <input type="text" class="form-control" name="senha" 
                                 value="<?php echo $funcionario['senha']; ?>" required>
                             <div class="invalid-feedback">
                                 Preencha este campo!
                             </div>
-                        </div>
-                        <div class="form-check mx-4">
-                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id="">
-                            <label class="form-check-label" for="">
-                                Mostrar Senha
-                            </label>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -197,11 +191,11 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-1 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha" value="" id="senha2" required>
+                            <input type="password" class="form-control" name="senha" value="" id="senha" required>
                         </div>
                         <div class="form-check mx-4">
-                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha2()" value="" id="">
-                            <label class="form-check-label" for="">
+                            <input class="form-check-input me-2" onclick="mostrarSenha()" type="checkbox"  value="" id="mostrar">
+                            <label class="form-check-label" for="mostrar">
                                 Mostrar Senha
                             </label>
                         </div>
