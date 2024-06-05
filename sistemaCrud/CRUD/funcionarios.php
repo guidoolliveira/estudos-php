@@ -107,8 +107,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <span>Está ação é irreversível!</span>
                     <form method='post' action='checar/funcionario/deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $funcionario['id']; ?>" />
-                        <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" />
-
+                        <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" /> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -145,13 +144,19 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" class="form-control" name="usuario"
                                 value="<?php echo $funcionario['usuario']; ?>" required>
                         </div>
-                        <div class="mb-3 mx-4">
+                        <div class="mb-1 mx-4">
                             <span class="form-label">Senha</span>
-                            <input type="text" class="form-control " name="senha"
+                            <input type="password" class="form-control" name="senha"id="senha"
                                 value="<?php echo $funcionario['senha']; ?>" required>
                             <div class="invalid-feedback">
                                 Preencha este campo!
                             </div>
+                        </div>
+                        <div class="form-check mx-4">
+                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id="">
+                            <label class="form-check-label" for="">
+                                Mostrar Senha
+                            </label>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -191,7 +196,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="password" class="form-control" name="senha" value="" id="senha" required>
                         </div>
                         <div class="form-check mx-4">
-                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id="">
+                            <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha2()" value="" id="">
                             <label class="form-check-label" for="">
                                 Mostrar Senha
                             </label>
