@@ -1,5 +1,5 @@
 <<?php
-if (isset($_POST["submit"]) && (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["senha"]) && !empty($_POST["senha"]))) {
+if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["senha"]) && !empty($_POST["senha"])) {
     session_start();
     require ("../dbconfig/conexao.php");
     $login = $_POST["login"];

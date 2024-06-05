@@ -1,6 +1,5 @@
 <?php
-if (isset($_POST["submit"]) && 
-isset($_POST["nome"]) && !empty($_POST["nome"]) && 
+if (isset($_POST["nome"]) && !empty($_POST["nome"]) && 
 isset($_POST["idespecializacao"]) && !empty($_POST["idespecializacao"]) && 
 isset($_POST["celular"]) && !empty($_POST["celular"])) {
     require ("../../dbconfig/conexao.php");

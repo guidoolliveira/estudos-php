@@ -4,7 +4,6 @@ require "dbconfig/conexao.php";
 if (!isset($_SESSION["idusers"])) {
   header("Location: login.php");
 }
-require "template/header.php";
 require "template/sidebar.php";
 $sql = "SELECT * FROM instrutores;";
 $stmt = $conn->prepare($sql);
@@ -76,7 +75,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Id</th>
             <th>Nome</th>
             <th>Especialização</th>
-            <th>Celular</th><?php
+            <th>Celular</th>
+            <?php
             if ($_SESSION["acesso"] == 1) {
               echo "<th>Ações</th>";
             }
