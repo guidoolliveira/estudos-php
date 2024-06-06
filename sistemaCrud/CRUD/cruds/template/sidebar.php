@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION["idusers"])) {
-  header("Location: cruds/login/login.php");
+  header("Location: ../login/login.php");
 }
 require "header.php";
-require "dbconfig/conexao.php";
+require "../../dbconfig/conexao.php";
 $id = $_SESSION["idusers"];
 $sql = "SELECT * FROM login WHERE id= :id;";
 $stmt = $conn->prepare($sql);
@@ -15,7 +15,7 @@ foreach ($result as $dados)
 ?>
 <div id="bdSidebar" data-bs-backdrop="false" data-bs-scroll="true" class="h-100 d-flex flex-column bg-body shadow flex-shrink-0 p-3 text-white offcanvas offcanvas-start">
   <div class="d-flex justify-content-between">
-    <a href="index.php" class="navbar-brand">
+    <a href="../../index.php" class="navbar-brand">
       <h5><i style="font-size: 28px;" class="fa-solid fa-shop me-2"></i> PresidiOnStock</h5>
     </a>
     <span class="mt-1 me-0"><button type="button" class="btn-close text-reset"
@@ -24,25 +24,25 @@ foreach ($result as $dados)
   <hr>
   <ul id="sidebar" class="nav nav-pills flex-column mb-auto">
     <li class="nav-item mb-2">
-      <a href="index.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="../../index.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="text-center fa-solid fa-home"></i>
         Página inicial
       </a>
     </li>
     <li class="nav-item mb-2">
-      <a href="cruds/instrutor/instrutores.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="../instrutor/instrutores.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="text-center fa-solid fa-users"></i>
         Instrutores
       </a>
     </li>
     <li class="nav-item mb-2">
-      <a href="cruds/produto/produtos.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="../produto/produtos.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="fa-solid fa-cart-shopping"></i>
         Produtos
       </a>
     </li>
     <li class="nav-item mb-2">
-      <a href="cruds/" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="fa-solid fa-file-circle-exclamation"></i>
         Relatórios
       </a>
@@ -53,7 +53,7 @@ foreach ($result as $dados)
         echo '<hr>
         <h5 class="fs-5">Painel Administrativo</h5>
     <li class="nav-item mb-2">
-      <a href="cruds/funcionario/funcionarios.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="../funcionario/funcionarios.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="text-center fa-solid fa-users"></i>
         Funcionários
       </a>
@@ -87,7 +87,7 @@ foreach ($result as $dados)
     <div class="d-flex mt-1"> <a href="" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
         <i class="fa-solid fa-bars fs-5"></i>
       </a>
-      <a href="index.php" class="ms-3 fw-semibold text-white text-decoration-none">PresidiOnStock</a>
+      <a href="../../index.php" class="ms-3 fw-semibold text-white text-decoration-none">PresidiOnStock</a>
     </div>
     <button type="button" class="btn btn-outline-danger btn-sm " data-bs-toggle="modal"
       data-bs-target="#modalLogOut">
@@ -107,7 +107,7 @@ foreach ($result as $dados)
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <a href="cruds/login/deslogar.php"><button type="button" class="btn btn-danger">Sair da conta</button></a>
+            <a href="../login/deslogar.php"><button type="button" class="btn btn-danger">Sair da conta</button></a>
           </div>
         </div>
       </div>

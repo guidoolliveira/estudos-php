@@ -1,10 +1,5 @@
 <?php
-session_start();
-require "dbconfig/conexao.php";
-if (!isset($_SESSION["idusers"])) {
-  header("Location: login.php");
-}
-require "template/sidebar.php";
+require "../template/sidebar.php";
 $sql = "SELECT * FROM instrutores;";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -129,7 +124,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body d-flex justify-content-center">
-        <form action="checar/instrutor/cadastrar.php" method="post" data-parsley-validate novalidate>
+        <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
           <div class="row">
             <div class="mb-3 col-12">
               <span class="form-label">Nome</span>
@@ -177,7 +172,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="checar/cadEspecializacao.php" method="post" class="needs-validation" novalidate>
+        <form action="cruds/cadEspecializacao.php" method="post" class="needs-validation" novalidate>
           <div class="mb-3 mx-4">
             <span class="form-label">Nome</span>
             <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
@@ -208,7 +203,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="modal-body">
           <span>Está ação é irreversível!</span>
-          <form method='post' action='checar/instrutor/deletar.php'>
+          <form method='post' action='deletar.php'>
             <input type='hidden' name='id' value="<?php echo $instrutor['idinstrutores']; ?>" />
             <input type='hidden' name='nome' value="<?php echo $instrutor['nome']; ?>" />
 
@@ -231,8 +226,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="checar/instrutor/editar.php" method="post" data-parsley-validate novalidate>
-            <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores']; ?>">
+          <form action="editar.php" method="post" data-parsley-validate novalidate>
+            <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores'];?>">
             <div class="mb-3 mx-4">
               <span class="form-label">Nome</span>
               <input type="text" class="form-control" name="nome" value="<?php echo $instrutor['nome']; ?>" required>
@@ -304,6 +299,6 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </script>
 <?php
-require "template/footer.php";
-require "checar/validarInput.php";
+require "../template/footer.php";
+require "../validarInput.php";
 ?>

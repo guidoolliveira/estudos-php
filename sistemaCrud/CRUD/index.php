@@ -1,11 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION["idusers"])) {
-  header("Location: login.php");
-}
-require "template/header.php";
 require "template/sidebar.php";
-require "dbconfig/conexao.php";
 ?>
 <div class="container">
 <h2 class="mb-0 mt-3 py-0">Página Inicial</h2>
@@ -13,7 +7,7 @@ require "dbconfig/conexao.php";
 <div class="d-flex gap-4 flex-wrap flex-lg-nowrap mt-4">
   <div class="px-2 w-100 d-flex bg-primary bg-gradient shadow rounded">
     <div>
-      <a class="fs-3 text-white" href="instrutores.php">Instrutores<i class="fa-solid fa-users ms-2 fs-4"></i> </a>
+      <a class="fs-3 text-white" href="cruds/instrutor/instrutores.php">Instrutores<i class="fa-solid fa-users ms-2 fs-4"></i> </a>
       <p class="fs-5">Total:
         <?php
         $sql = "SELECT * FROM instrutores;";
@@ -26,7 +20,7 @@ require "dbconfig/conexao.php";
   </div>
   <div class="d-flex w-100 px-2 bg-secundary bg-gradient shadow rounded">
     <div>
-      <a class="fs-3 text-white" href="funcionarios.php">Funcionários<i class="fa-solid fa-users ms-2 fs-4"></i></a>
+      <a class="fs-3 text-white" href="cruds/funcionario/funcionarios.php">Funcionários<i class="fa-solid fa-users ms-2 fs-4"></i></a>
       <p class="fs-5">Total:
         <?php
         $sql = "SELECT * FROM login;";
@@ -39,7 +33,7 @@ require "dbconfig/conexao.php";
   </div>
   <div class="px-2 d-flex w-100 bg-danger bg-gradient shadow rounded">
     <div>
-      <a class="fs-3 text-white" href="produtos.php">Produtos<i class="fa-solid fa-cart-shopping ms-2 fs-4"></i></a>
+      <a class="fs-3 text-white" href="cruds/produto/produtos.php">Produtos<i class="fa-solid fa-cart-shopping ms-2 fs-4"></i></a>
       <p class="fs-5">Total:
         <?php
         $sql = "SELECT * FROM produtos;";

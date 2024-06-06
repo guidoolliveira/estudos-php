@@ -2,12 +2,7 @@
 erro 2 = usuario-ja-cadastrado
 erro 3 = preencha-todos-os-campos -->
 <?php
-session_start();
-require "dbconfig/conexao.php";
-if (!isset($_SESSION["idusers"])) {
-    header("Location: login.php");
-}
-require "template/sidebar.php";
+require "../template/sidebar.php";
 $sql = "SELECT * FROM produtos;";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -28,7 +23,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["deletar"]) && $_GET["deletar"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
-            O funcionário ' . $_GET["nome-pro$produto"] . ' foi deletado com sucesso!
+            O produto ' . $_GET["nome-produto"] . ' foi deletado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -37,7 +32,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["edit"]) && $_GET["edit"] == "ok") {
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
-            O funcionário ' . $_GET["nome-pro$produto"] . ' foi editado com sucesso!
+            O produto ' . $_GET["nome-produto"] . ' foi editado com sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert"
             "" aria-label="Close"></button>
         </div>
@@ -76,7 +71,15 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         echo "<td>" . $produto["quantidade"] . "</td>";
                         echo "<td>" . $produto["preco"] . "</td>";
                         echo "<td>" . $produto["fornecedor"] . "</td>";
-                        echo "<td>" . $produto["idcategoria"] . "</td>";
+                        $idcategoria = $produto["idcategoria"];
+                        $sql = "SELECT nome FROM categoria WHERE id = :idcategoria ";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindValue("idcategoria", $idcategoria);
+                        $stmt->execute();
+                        $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($categorias as $categoria) {
+                            echo "<td class='text-nowrap'>" . $categoria["nome"] . "</td>";
+                        }
                         if ($_SESSION["acesso"] == 1) {
                             echo "<td>
                                 <span>
@@ -92,7 +95,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
             </table>
         </div>
-        <?php
+    <?php
     } else {
         echo '<h3 class="text-warning text-center">Ainda não há intrutores cadastrados!</h3>';
     } ?>
@@ -100,19 +103,17 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 <?php foreach ($produtos as $produto) { ?>
     <!-- Modal deletar -->
-    <div class="modal fade" id="modalDeletar<?php echo $produto['id']; ?>" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDeletar<?php echo $produto['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o produto <?php
-                    echo $produto['nome']
-                        ?>? </h1>
+                                                                                            echo $produto['nome'] ?>?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <span>Está ação é irreversível!</span>
-                    <form method='post' action='checar/produto/deletar.php'>
+                    <form method='post' action='deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $produto['id']; ?>" />
                         <input type='hidden' name='nome' value="<?php echo $produto['nome']; ?>" />
                 </div>
@@ -125,47 +126,50 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <!-- Modal Editar produto -->
-    <div class="modal fade" id="modalEditar<?php echo $produto['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditar<?php echo $produto['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar pro$produto</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Produto</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="checar/produto/cadastrar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id">
+                    <form action="editar.php" method="post" data-parsley-validate novalidate>
+                        <input type="hidden" name="id" value="<?php echo $produto['id']; ?>">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="
-                            <?php echo $produto['nome'];?> " required>
+                            <input type="text" class="form-control" name="nome" value="<?php echo $produto['nome']; ?>" required>
                         </div>
                         <div class="mx-4">
                             <div class="row mb-3">
                                 <div class="col-sm-6">
                                     <span class="form-label">Quantidade</span>
-                                    <input type="number" class="form-control" name="quantidade" value="<?php echo $produto['quantidade'];?>" required>
+                                    <input type="number" class="form-control" name="quantidade" value="<?php echo $produto['quantidade']; ?>" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <span class="form-label">Preço</span>
-                                    <input type="number" step="0.01" class="form-control" name="preco" value="<?php echo $produto['preco'];?>" required>
+                                    <input type="number" step="0.01" class="form-control" name="preco" value="<?php echo $produto['preco']; ?>" required>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Fornecedor</span>
-                            <input type="text" class="form-control" name="fornecedor" value="<?php echo $produto['fornecedor'];?>" id="" required>
+                            <input type="text" class="form-control" name="fornecedor" value="<?php echo $produto['fornecedor']; ?>" id="" required>
                         </div>
                         <div class="mb-3 mx-4">
                             <span class="form-label">Categoria</span>
                             <select class="form-select" name="idcategoria" required>
-                                <?php $sql = "SELECT * FROM categoria;";
+                                <?php
+                                $sql = "SELECT * FROM categoria;";
                                 $stmt = $conn->prepare($sql);
                                 $stmt->execute();
                                 $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 foreach ($categorias as $categoria) {
-                                    echo "<option value=" . $categoria["id"] . ">" . $categoria["nome"] . "</option>";
+                                    if ($categoria["id"] == $produto["idcategoria"]) {
+                                        echo "<option value='" . $categoria["id"] . "' selected>" . $categoria["nome"] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $categoria["id"] . "'>" . $categoria["nome"] . "</option>";
+                                    }
                                 }
                                 ?>
                             </select>
@@ -179,12 +183,11 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <?php
+<?php
 }
 ?>
 <!-- Modal Cadastrar -->
-<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -192,7 +195,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="checar/produto/cadastrar.php" method="post" data-parsley-validate novalidate>
+                <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
                     <input type="hidden" name="id">
                     <div class="mb-3 mx-4">
                         <span class="form-label">Nome</span>
@@ -237,6 +240,6 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 <?php
-require "template/footer.php";
-require "checar/validarInput.php";
+require "../template/footer.php";
+require "../validarInput.php";
 ?>

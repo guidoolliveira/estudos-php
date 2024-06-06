@@ -1,7 +1,7 @@
 <!-- erro 1 = dados-invalidos -->
 <!-- erro 2 = preencha-todos-os-campos -->
 <?php
-require "template/header.php"; 
+require "../template/header.php"; 
 if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
     echo "<div style='top: 2rem' class='my-5 position-absolute start-50 translate-middle'>
             <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
@@ -15,7 +15,7 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5 text-center">
-                <img src="assets/logo.png" class="img-fluid" alt="">
+                <img src="../../assets/logo.png" class="img-fluid" alt="">
             </div>
 
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
@@ -30,7 +30,7 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
                             ?>
                         </span>
                     </div>
-                <form action="checar/logar.php" method="post" data-parsley-validate novalidate>
+                <form action="logar.php" method="post" data-parsley-validate novalidate>
                     <div class="form-outline mb-4">
                         <label class="form-label" for="login">Email ou Usuário</label>
                         <input type="text" id="login" name="login" class="form-control form-control-lg"
@@ -45,8 +45,8 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
                     </div>
 
                     <div class="form-check mb-0">
-                        <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="">
-                        <label class="form-check-label" for="">
+                        <input class="form-check-input me-2" type="checkbox" onclick="mostrarSenha()" value="" id="ver">
+                        <label class="form-check-label" for="ver">
                             Mostrar Senha
                         </label>
                     </div>
@@ -63,5 +63,5 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
 
 </section>
 <?php
-require "template/footer.php";
+require "../template/footer.php";
 ?>

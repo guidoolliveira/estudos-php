@@ -1,6 +1,12 @@
 <?php
-if (isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["quantidade"]) && !empty($_POST["quantidade"]) && isset($_POST["preco"]) && !empty($_POST["preco"]) && isset($_POST["fornecedor"]) && !empty($_POST["fornecedor"]) && isset($_POST["idcategoria"]) && !empty($_POST["idcategoria"])) {
-    require ("../../dbconfig/conexao.php");
+if (
+    isset($_POST["nome"]) && !empty(trim($_POST["nome"])) &&
+    isset($_POST["quantidade"]) && !empty(trim($_POST["quantidade"])) &&
+    isset($_POST["preco"]) && !empty(trim($_POST["preco"])) &&
+    isset($_POST["fornecedor"]) && !empty(trim($_POST["fornecedor"])) &&
+    isset($_POST["idcategoria"]) && !empty(trim($_POST["idcategoria"]))
+) {
+    require("../../dbconfig/conexao.php");
     $nome = $_POST["nome"];
     $quantidade = $_POST["quantidade"];
     $preco = $_POST["preco"];
@@ -14,8 +20,8 @@ if (isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["quantidade"
     $stmt->bindValue("fornecedor", $fornecedor);
     $stmt->bindValue("idcategoria", $idcategoria);
     $stmt->execute();
-    header("Location: ../../produtos.php");
+    header("Location: produtos.php");
 } else {
     // Campos nao preenchidos
-    header("Location: ../../instrutores.php?erro=1");
+    header("Location: produtos.php?erro=1");
 }

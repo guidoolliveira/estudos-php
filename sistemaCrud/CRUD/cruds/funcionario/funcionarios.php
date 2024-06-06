@@ -2,13 +2,7 @@
 erro 2 = usuario-ja-cadastrado
 erro 3 = preencha-todos-os-campos -->
 <?php
-session_start();
-require "dbconfig/conexao.php";
-if (!isset($_SESSION["idusers"])) {
-    header("Location: login.php");
-}
-require "template/header.php";
-require "template/sidebar.php";
+require "../template/sidebar.php";
 $sql = "SELECT * FROM login;";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -59,7 +53,11 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th>Nome</th>
                         <th>Email</th>
                         <th>Usuario</th>
-                        <th>Ações</th>
+                        <?php
+                        if ($_SESSION["acesso"] == 1) {
+                            echo "<th>Ações</th>";
+                        }
+                        ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +65,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($login as $funcionario) {
                         echo "<tr>";
                         echo "<td>" . $funcionario["id"] . "</td>";
-                        echo "<td>" . $funcionario["nome"] . "</td>";
+                        echo "<td class='text-nowrap' >" . $funcionario["nome"] . "</td>";
                         echo "<td>" . $funcionario["email"] . "</td>";
                         echo "<td>" . $funcionario["usuario"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
@@ -210,6 +208,6 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
    
 <?php
-require "template/footer.php";
-require "checar/validarInput.php";
+require "../template/footer.php";
+require "../validarInput.php";
 ?>

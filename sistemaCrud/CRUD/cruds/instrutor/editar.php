@@ -15,8 +15,8 @@ if (isset($_POST["id"]) && !empty($_POST["id"]) && isset($_POST["nome"]) && !emp
   $stmt->bindValue(":id", $id);
   $stmt->execute();
 
-  header("Location: ../../instrutores.php?nome-instrutor=$nome&edit=ok");
+  header("Location: instrutores.php?nome-instrutor=$nome&edit=ok");
 } else {
-  header("Location: ../../instrutores.php?erro=1");
+  header("Location: instrutores.php?erro=1");
   
 }
