@@ -9,7 +9,13 @@ $stmt->execute();
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-    <h2 class="mb-0 mt-3 py-0">Produtos</h2>
+    <h2 class="mb-0 mt-3 py-0"><i class="fa-solid fa-cart-shopping me-3 ms-2 fs-4"></i>Produtos: <?php
+        $sql = "SELECT * FROM produtos;";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->rowCount();
+        echo $resultado;
+      ?></h2>
     <hr class="mt-0">
     <?php
     if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
@@ -51,8 +57,8 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
-                        <th>Quantidade</th>
                         <th>Preço</th>
+                        <th>Quantidade</th>
                         <th>Fornecedor</th>
                         <th>Categoria</th>
                         <?php
@@ -65,11 +71,12 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                     <?php
                     foreach ($produtos as $produto) {
+                        $preco = number_format($produto["preco"], 2, ',', '.');
                         echo "<tr>";
                         echo "<td>" . $produto["id"] . "</td>";
                         echo "<td>" . $produto["nome"] . "</td>";
+                        echo "<td>R$ " . $preco . "</td>";
                         echo "<td>" . $produto["quantidade"] . "</td>";
-                        echo "<td>" . $produto["preco"] . "</td>";
                         echo "<td>" . $produto["fornecedor"] . "</td>";
                         $idcategoria = $produto["idcategoria"];
                         $sql = "SELECT nome FROM categoria WHERE id = :idcategoria ";

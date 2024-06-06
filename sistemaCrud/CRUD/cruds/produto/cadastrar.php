@@ -9,7 +9,7 @@ if (
     require("../../dbconfig/conexao.php");
     $nome = $_POST["nome"];
     $quantidade = $_POST["quantidade"];
-    $preco = $_POST["preco"];
+    $preco = number_format($_POST["preco"], 2, ',', '.');
     $fornecedor = $_POST["fornecedor"];
     $idcategoria = $_POST["idcategoria"];
     $sql = "INSERT INTO produtos(nome, quantidade, preco, fornecedor, idcategoria) VALUES(:nome, :quantidade, :preco, :fornecedor, :idcategoria);";
