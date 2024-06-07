@@ -16,7 +16,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo "<div style='top: 3rem' class=''>
           <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
               Preencha todos os campos!
-              <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              <a href='funcionarios.php' class='btn-close'></a>
           </div>
       </div>";
     }
@@ -24,8 +24,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
             O funcionário ' . $_GET["nome-funcionario"] . ' foi deletado com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-            "" aria-label="Close"></button>
+            <a href="funcionarios.php" class="btn-close"></a>
         </div>
     </div>';
     }
@@ -33,16 +32,12 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
             O funcionário ' . $_GET["nome-funcionario"] . ' foi editado com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-            "" aria-label="Close"></button>
+            <a href="funcionarios.php" class="btn-close"></a>
         </div>
     </div>';
     }
-
-
+    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>';
     ?>
-    <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>
-
     <?php
     if (count($login) > 0) { ?>
         <div class="table-responsive">
@@ -103,7 +98,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="modal-body">
                     <span>Está ação é irreversível!</span>
-                    <form method='post' action='checar/funcionario/deletar.php'>
+                    <form method='post' action='deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $funcionario['id']; ?>" />
                         <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" /> 
                 </div>
@@ -125,7 +120,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="checar/funcionario/editar.php" method="post" data-parsley-validate novalidate>
+                    <form action="editar.php" method="post" data-parsley-validate novalidate>
                         <input type="hidden" name="id" value="<?php echo $funcionario['id']; ?>">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>
@@ -173,7 +168,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="checar/funcionario/cadastrar.php" method="post" data-parsley-validate novalidate>
+                    <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
                         <input type="hidden" name="id">
                         <div class="mb-3 mx-4">
                             <span class="form-label">Nome</span>

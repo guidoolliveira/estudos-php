@@ -9,7 +9,7 @@ $stmt->execute();
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-    <h2 class="mb-0 mt-3 py-0"><i class="fa-solid fa-cart-shopping me-3 ms-2 fs-4"></i>Produtos: <?php
+    <h2 class="mb-0 mt-3"><i class="fa-solid fa-cart-shopping me-3 ms-2 fs-2"></i>Produtos: <?php
         $sql = "SELECT * FROM produtos;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -43,12 +43,16 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             "" aria-label="Close"></button>
         </div>
     </div>';
-    }
-
-
+    } if ($_SESSION["acesso"] == 1) {
+    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>
+    <button type="button" class="btn btn-primary dropdown-toggle mt-2 mb-3" data-bs-toggle="dropdown" aria-expanded="false"> Categorias
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCadCategoria" href="#">Cadastrar</a></li>
+    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalVisualizarCatego" href="#">Visualizar</a></li>
+  </ul>';
+     }
     ?>
-    <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>
-
     <?php
     if (count($produtos) > 0) { ?>
         <div class="table-responsive">
@@ -115,7 +119,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o produto <?php
-                                                                                            echo $produto['nome'] ?>?</h1>
+                        echo $produto['nome'] ?>?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -246,6 +250,60 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+<!-- Modal Cadastrar Especialização -->
+<div class="modal fade" id="modalCadCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Categorias</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="../cadEspecializacao.php" method="post" data-parsley-validate novalidate>
+            <div class="mb-3 mx-4">
+              <span class="form-label">Nome</span>
+              <input type="text" class="form-control" name="nomeCategoria" placeholder="Categoria " required>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Visualizar Especificações -->
+  <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Visualizar Categorias</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <?php
+            $sql = "SELECT * FROM categoria";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($categorias as $categoria) {
+              echo "<li>" . $categoria["nome"] . "
+                 </li>";
+            }
+            ?>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <?php
 require "../template/footer.php";
 require "../validarInput.php";

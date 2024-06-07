@@ -6,14 +6,20 @@ $stmt->execute();
 $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-  <h2 class="mb-0 mt-3 py-0">Instrutores</h2>
+<h2 class="mb-0 mt-3"><i class="fa-solid fa-users me-3 ms-2 fs-2"></i>Instrutores: <?php
+        $sql = "SELECT * FROM instrutores;";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->rowCount();
+        echo $resultado;
+      ?></h2>
   <hr class="mt-0">
   <?php
   if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
     echo "<div style='top: 3rem' class=''>
           <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
               Preencha todos os campos!
-              <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              <a href='instrutores.php' class='btn-close'></a>
           </div>
       </div>";
   }
@@ -21,8 +27,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
             A especialização ' . $_GET["nomeEspecializacao"] . ' foi cadastrada  com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-            "" aria-label="Close"></button>
+            <a href="instrutores.php" class="btn-close"></a>
         </div>
     </div>';
   }
@@ -30,8 +35,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
             O instrutor ' . $_GET["nome-instrutor"] . ' foi deletado com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-            "" aria-label="Close"></button>
+            <a href="instrutores.php" class="btn-close"></a>
         </div>
     </div>';
   }
@@ -39,7 +43,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
             O instrutor ' . $_GET["nome-instrutor"] . ' foi editado com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="sair()" data-bs-dismiss="modal" aria-label="Close"></button>
+            <a href="instrutores.php" class="btn-close"></a>
         </div>
     </div>';
   }
@@ -47,21 +51,25 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     echo '<div style="top: 3rem" class="">
         <div class="alert alert-success alert-dismissible fade show fw-semibold text-center" role="alert">
             O instrutor ' . $_GET["nome-instrutor"] . ' foi cadastrado com sucesso!
-            <button type="button" class="btn-close" data-bs-dismiss="alert"
-            "" aria-label="Close"></button>
+            <a href="instrutores.php" class="btn-close"></a>
         </div>
     </div>';
   }
 
   if ($_SESSION["acesso"] == 1) {
-    echo ' <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastro">Cadastrar</button>';
+    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastro">Cadastrar Instrutor</button> 
+    <div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle mt-2 mb-3" data-bs-toggle="dropdown" aria-expanded="false"> Especializações
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCadEspecializacao" href="#">Cadastrar</a></li>
+    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalVisualizarEspec" href="#">Visualizar</a></li>
+  </ul>
+</div>';
   }
   ?>
-  <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalVisualizarEspec">Ver
-    Especializações</button>
-  <button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalEspecializacao">Cadastrar
-    Especializações</button>
-  <?php
+  
+<?php
   if (count($instrutores) > 0) { ?>
     <div class="table-responsive">
       <table class="table table-dark table-striped">
@@ -114,7 +122,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   } ?>
 </div>
 </div>
-<!-- Modal Cadastro Instrutor-->
+<!-- Modal Cadastrar Instrutor-->
 <div class="modal fade" id="modalCadastro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -162,34 +170,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 
-<!-- Modal Especialização -->
-<div class="modal fade" id="modalEspecializacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Especialização</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="cruds/cadEspecializacao.php" method="post" class="needs-validation" novalidate>
-          <div class="mb-3 mx-4">
-            <span class="form-label">Nome</span>
-            <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
-            <div class="invalid-feedback">
-              Preencha este campo!
-            </div>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Deletar -->
+<!-- Modal Deletar Instrutor -->
 <?php foreach ($instrutores as $instrutor) { ?>
   <div class="modal fade" id="modalDeletar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static"
     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -206,7 +187,6 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <form method='post' action='deletar.php'>
             <input type='hidden' name='id' value="<?php echo $instrutor['idinstrutores']; ?>" />
             <input type='hidden' name='nome' value="<?php echo $instrutor['nome']; ?>" />
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -216,6 +196,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </div>
+
   <!-- Modal Editar Instrutor -->
   <div class="modal fade" id="modalEditar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static"
     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -264,6 +245,31 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </div>
+  <!-- Modal Cadastrar Especialização -->
+<div class="modal fade" id="modalCadEspecializacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Especialização</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="../cadEspecializacao.php" method="post" data-parsley-validate novalidate>
+          <div class="mb-3 mx-4">
+            <span class="form-label">Nome</span>
+            <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Modal Visualizar Especificações -->
   <div class="modal fade" id="modalVisualizarEspec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">

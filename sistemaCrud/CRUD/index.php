@@ -2,7 +2,7 @@
 require "template/sidebar.php";
 ?>
 <div class="container">
-<h2 class="mb-0 mt-3 py-0">Página Inicial</h2>
+<h2 class="mb-0 mt-3"> <i class="fa-solid fa-home me-3 ms-2 fs-2"></i>Página Inicial</h2>
 <hr class="mt-0">
 <div class="d-flex gap-4 flex-wrap flex-lg-nowrap mt-4">
   <div class="px-2 w-100 d-flex bg-primary bg-gradient shadow rounded">

@@ -12,7 +12,7 @@ if (isset($_POST["submit"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) &
         $stmt->bindValue(":email", $email);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            header("Location: ../../funcionarios.php?erro=1");
+            header("Location: funcionarios.php?erro=1");
         } else {
             $sql = "SELECT * FROM login WHERE usuario = :usuario";
             $stmt = $conn->prepare($sql);
@@ -22,7 +22,7 @@ if (isset($_POST["submit"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) &
             // erro 2 = usuario-ja-cadastrado
             // erro 3 = preencha-todos-os-campos
             if ($stmt->rowCount() > 0) {
-                header("Location: ../../funcionarios.php?erro=2");
+                header("Location: funcionarios.php?erro=2");
             } else {
                 $sql = "INSERT INTO login (nome,email,usuario,senha) VALUES (:nome, :email, :usuario, :senha)";
                 $stmt = $conn->prepare($sql);
@@ -31,10 +31,10 @@ if (isset($_POST["submit"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) &
                 $stmt->bindValue(":usuario", $usuario);
                 $stmt->bindValue(":senha", $senha);
                 $stmt->execute();
-                header("Location: ../../funcionarios.php?resposta=ok");
+                header("Location: funcionarios.php?resposta=ok");
             }
         }
     }
 } else {
-    header("Location: ../../funcionarios.php?erro=3");
+    header("Location: funcionarios.php?erro=3");
 }

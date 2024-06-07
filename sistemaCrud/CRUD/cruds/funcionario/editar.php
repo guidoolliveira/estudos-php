@@ -17,8 +17,8 @@ if (isset($_POST["id"]) && !empty($_POST["id"]) && isset($_POST["nome"]) && !emp
   $stmt->bindValue(":id", $id);
   $stmt->execute();
 
-  header("Location: ../../funcionarios.php?nome-funcionario=$nome&edit=ok");
+  header("Location: funcionarios.php?nome-funcionario=$nome&edit=ok");
 } else {
-  header("Location: ../../funcionarios.php?erro=1");
+  header("Location: funcionarios.php?erro=1");
   
 }

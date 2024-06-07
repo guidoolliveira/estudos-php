@@ -19,9 +19,9 @@ function execmascara(){
     v_obj.value=v_fun(v_obj.value)
 }
 function mtel(valor){
-    valor=valor.replace(/\D/g,""); //Remove tudo o que não é dígito
-    valor=valor.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    valor=valor.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+    valor=valor.replace(/\D/g,"");
+    valor=valor.replace(/^(\d{2})(\d)/g,"($1) $2"); 
+    valor=valor.replace(/(\d)(\d{4})$/,"$1-$2"); 
     return valor;
 }
 function id( el ){
@@ -41,21 +41,17 @@ function execmascara(){
     v_obj.value=v_fun(v_obj.value)
 }
 function mtel(valor){
-    valor=valor.replace(/\D/g,""); //Remove tudo o que não é dígito
-    valor=valor.replace(/^(\d{2})(\d)/g,"($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
-    valor=valor.replace(/(\d)(\d{4})$/,"$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
+    valor=valor.replace(/\D/g,"");
+    valor=valor.replace(/^(\d{2})(\d)/g,"($1) $2");
+    valor=valor.replace(/(\d)(\d{4})$/,"$1-$2"); 
     return valor;
 }
 function id( el ){
 	return document.getElementById( el );
 }
-// Attach event listener to all input fields with class "celular"
 var inputFields = document.getElementsByClassName('celular');
 for (var i = 0; i < inputFields.length; i++) {
   inputFields[i].onkeyup = function(){
     mascara( this, mtel );
   }
-}
-function sair(){
-    window.location = 'instrutores.php';
 }
