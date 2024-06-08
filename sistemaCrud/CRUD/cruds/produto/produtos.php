@@ -250,7 +250,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-<!-- Modal Cadastrar Especialização -->
+<!-- Modal Cadastrar Categoria -->
 <div class="modal fade" id="modalCadCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -260,7 +260,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="../cadEspecializacao.php" method="post" data-parsley-validate novalidate>
+          <form action="../categoria/cadastrar.php" method="post" data-parsley-validate novalidate>
             <div class="mb-3 mx-4">
               <span class="form-label">Nome</span>
               <input type="text" class="form-control" name="nomeCategoria" placeholder="Categoria " required>
@@ -275,7 +275,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </div>
 
-  <!-- Modal Visualizar Especificações -->
+  <!-- Modal Visualizar Categorias -->
   <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
