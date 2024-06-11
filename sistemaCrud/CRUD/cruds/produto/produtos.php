@@ -258,10 +258,11 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
-<!-- Modal Cadastrar Especialização -->
+<!-- Modal Cadastrar Categoria -->
 <div class="modal fade" id="modalCadCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
+<<<<<<< HEAD
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Categorias</h1>
@@ -278,13 +279,30 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
+=======
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Categorias</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="../categoria/cadastrar.php" method="post" data-parsley-validate novalidate>
+            <div class="mb-3 mx-4">
+              <span class="form-label">Nome</span>
+              <input type="text" class="form-control" name="nomeCategoria" placeholder="Categoria " required>
+>>>>>>> 9b70806ee6c7e0be07c07107a3607d3b9eaf7674
             </div>
         </div>
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- Modal Visualizar Categorias -->
 <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+=======
+  <!-- Modal Visualizar Categorias -->
+  <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+>>>>>>> 9b70806ee6c7e0be07c07107a3607d3b9eaf7674
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
