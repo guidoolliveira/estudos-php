@@ -6,13 +6,13 @@ $stmt->execute();
 $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-<h2 class="mb-0 mt-3"><i class="fa-solid fa-users me-3 ms-2 fs-2"></i>Instrutores: <?php
-        $sql = "SELECT * FROM instrutores;";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $resultado = $stmt->rowCount();
-        echo $resultado;
-      ?></h2>
+  <h2 class="mb-0 mt-3"><i class="fa-solid fa-users me-3 ms-2 fs-2"></i>Instrutores: <?php
+  $sql = "SELECT * FROM instrutores;";
+  $stmt = $conn->prepare($sql);
+  $stmt->execute();
+  $resultado = $stmt->rowCount();
+  echo $resultado;
+  ?></h2>
   <hr class="mt-0">
   <?php
   if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
@@ -31,10 +31,18 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>';
   }
-  if (isset($_GET["delete"]) && $_GET["delete"] == "ok") {
+  if (isset($_GET["deletar"]) && $_GET["deletar"] == "instrutor") {
     echo '<div style="top: 3rem" class="">
         <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
             O instrutor ' . $_GET["nome-instrutor"] . ' foi deletado com sucesso!
+            <a href="instrutores.php" class="btn-close"></a>
+        </div>
+    </div>';
+  }
+  if (isset($_GET["nome-especializacao"]) && $_GET["deletar"] == "ok") {
+    echo '<div style="top: 3rem" class="">
+        <div class="alert alert-warning alert-dismissible fade show fw-semibold text-center" role="alert">
+            A Especialização ' . $_GET["nome-especializacao"] . ' foi deletada com sucesso!
             <a href="instrutores.php" class="btn-close"></a>
         </div>
     </div>';
@@ -68,8 +76,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>';
   }
   ?>
-  
-<?php
+
+  <?php
   if (count($instrutores) > 0) { ?>
     <div class="table-responsive">
       <table class="table table-dark table-striped">
@@ -208,7 +216,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="modal-body">
           <form action="editar.php" method="post" data-parsley-validate novalidate>
-            <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores'];?>">
+            <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores']; ?>">
             <div class="mb-3 mx-4">
               <span class="form-label">Nome</span>
               <input type="text" class="form-control" name="nome" value="<?php echo $instrutor['nome']; ?>" required>
@@ -245,7 +253,10 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </div>
-  <!-- Modal Cadastrar Especialização -->
+  <?php
+}
+?>
+<!-- Modal Cadastrar Especialização -->
 <div class="modal fade" id="modalCadEspecializacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -255,7 +266,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="../cadEspecializacao.php" method="post" data-parsley-validate novalidate>
+        <form action="../especializacao/cadastrar.php" method="post" data-parsley-validate novalidate>
           <div class="mb-3 mx-4">
             <span class="form-label">Nome</span>
             <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
@@ -270,31 +281,106 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 
-  <!-- Modal Visualizar Especificações -->
-  <div class="modal fade" id="modalVisualizarEspec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Visualizar Especializações -->
+<div class="modal fade" id="modalVisualizarEspec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Visualizar Especializações</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-dark table-striped">
+            <thead class="">
+              <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <?php
+                if ($_SESSION["acesso"] == 1) {
+                  echo "<th>Ações</th>";
+                }
+                ?>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $sql = "SELECT * FROM especializacao";
+              $stmt = $conn->prepare($sql);
+              $stmt->execute();
+              $especializacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+              foreach ($especializacoes as $especializacao) {
+                echo "<td  class='text-nowrap'>" . $especializacao["id"] . "</td>";
+                echo "<td  class='text-nowrap'>" . $especializacao["nomeEspecializacao"] . "</td>";
+                if ($_SESSION["acesso"] == 1) {
+                  echo "<td class='text-nowrap' ><span>
+                <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditarEspec" . $especializacao["id"] . "' data-bs-dismiss='modal'>Editar</button>
+                <button class='btn btn-danger btn-sm' data-bs-target='#modalDeletarEspec" . $especializacao["id"] . "' data-bs-toggle='modal' data-bs-dismiss='modal'>Excluir</button>
+                </td>";
+                }
+                echo "</tr>";
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Especialização -->
+<?php
+foreach ($especializacoes as $especializacao) {
+  ?>
+  <div class="modal fade" id="modalEditarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Visualizar Especializações</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Especialização</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <ul>
-            <?php
-            $sql = "SELECT * FROM especializacao";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            $especializacoes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($especializacoes as $especializacao) {
-              echo "<li>" . $especializacao["nomeEspecializacao"] . "
-                 </li>";
-            }
-            ?>
-          </ul>
+          <form action="../especializacao/editar.php" method="post" data-parsley-validate novalidate>
+            <input type="hidden" name="id" value="<?php echo $especializacao["id"]; ?>">
+            <div class="mb-3 mx-4">
+              <span class="form-label">Nome</span>
+              <input type="text" class="form-control" name="nomeEspecializacao"
+                value="<?php echo $especializacao["nomeEspecializacao"]; ?>" required>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Deletar Especialização -->
+  <div class="modal fade" id="modalDeletarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Especialização</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja deletar a especialização <?php echo $especializacao["nomeEspecializacao"];?>?</p>
+          <form action="../especializacao/deletar.php" method="post">
+            <input type="hidden" name="id" value="<?php echo $especializacao["id"]; ?>">
+            <input type="hidden" name="nome" value="<?php echo $especializacao["nomeEspecializacao"]; ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="submit" class="btn btn-danger">Deletar</button>
+          </form>
         </div>
       </div>
     </div>
@@ -302,6 +388,40 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <?php
 }
 ?>
+ <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Show a second modal and hide this one with the button below.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggle2" aria-labelledby="exampleModalToggleLabel2" tabindex="-1" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Hide this modal and show the first with the button below.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button>
+
 
 </script>
 <?php
