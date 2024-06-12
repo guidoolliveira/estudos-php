@@ -151,6 +151,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="mb-3 col-sm-6">
               <span class="form-label">Especialização</span>
               <select class="form-select" name="idespecializacao" required>
+              <option value="">Selecione</option>
                 <?php $sql = "SELECT * FROM especializacao;";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
@@ -350,15 +351,16 @@ foreach ($especializacoes as $especializacao) {
             <input type="hidden" name="id" value="<?php echo $especializacao["id"]; ?>">
             <div class="mb-3 mx-4">
               <span class="form-label">Nome</span>
-              <input type="text" class="form-control" name="nomeEspecializacao"
+              <input type="text" class="form-control" name="nome"
                 value="<?php echo $especializacao["nomeEspecializacao"]; ?>" required>
             </div>
-          </form>
+          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="submit" class="btn btn-primary">Editar</button>
-        </div>
+        </form>
+      </div>
       </div>
     </div>
   </div>
@@ -388,41 +390,6 @@ foreach ($especializacoes as $especializacao) {
   <?php
 }
 ?>
- <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1" style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Show a second modal and hide this one with the button below.
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-labelledby="exampleModalToggleLabel2" tabindex="-1" style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Hide this modal and show the first with the button below.
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button>
-
-
 </script>
 <?php
 require "../template/footer.php";

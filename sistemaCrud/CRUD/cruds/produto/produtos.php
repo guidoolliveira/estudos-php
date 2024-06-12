@@ -237,7 +237,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type="text" class="form-control" name="fornecedor" value="" id="" required>
                     </div>
                     <div class="mb-3 mx-4">
-                     
+
                         <span class="form-label">Categoria</span>
                         <select class="form-select" name="idcategoria" required>
                             <option value="">Selecione</option>
@@ -285,13 +285,8 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<<<<<<< HEAD
 <!-- Modal Visualizar Categorias -->
 <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-=======
-  <!-- Modal Visualizar Categorias -->
-  <div class="modal fade" id="modalVisualizarCatego" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
->>>>>>> 9b70806ee6c7e0be07c07107a3607d3b9eaf7674
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
