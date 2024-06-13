@@ -7,7 +7,7 @@ if (isset($_POST["nomeCategoria"]) && !empty($_POST["nomeCategoria"])) {
     $stmt->bindValue("nomeCategoria", $nomeCategoria);
     $stmt->execute();
     header("Location: ../produto/produtos.php?nomeCategoria=$nomeCategoria");
-}else{
+}else{  
     // Campos nao preenchidos
     header("Location:  ../produto/produtos.php?erro=1");
 }

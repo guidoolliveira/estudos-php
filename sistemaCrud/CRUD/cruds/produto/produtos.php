@@ -1,6 +1,3 @@
-<!-- erro 1 = email-ja-cadastrado
-erro 2 = usuario-ja-cadastrado
-erro 3 = preencha-todos-os-campos -->
 <?php
 require "../template/sidebar.php";
 $sql = "SELECT * FROM produtos;";
@@ -21,7 +18,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
         echo "<div style='top: 3rem' class=''>
           <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
-              Preencha todos os campos!
+              <p>Preencha todos os campos!</p>
               <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
           </div>
       </div>";
@@ -217,29 +214,28 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
                     <input type="hidden" name="id">
                     <div class="mb-3 mx-4">
-                        <span class="form-label">Nome</span>
-                        <input type="text" class="form-control" name="nome" value="" required>
+                        <label for="nome" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
+                        <input type="text" class="form-control" name="nome" id="nome" required>
                     </div>
                     <div class="mx-4">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <span class="form-label">Quantidade</span>
-                                <input type="number" class="form-control" name="quantidade" value="" required>
+                                <label for="quantidade" class="form-label">Quantidade<span class="text-danger fw-bold">*</span></label>
+                                <input type="number" class="form-control" id="quantidade" name="quantidade" value="" required>
                             </div>
                             <div class="col-sm-6">
-                                <span class="form-label">Preço</span>
-                                <input type="number" step="0.01" class="form-control" name="preco" value="" required>
+                                <label for="preco" class="form-label">Preço<span class="text-danger fw-bold">*</span></label>
+                                <input type="number" step="0.01" class="form-control" name="preco" id="preco" value="" required>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 mx-4">
-                        <span class="form-label">Fornecedor</span>
-                        <input type="text" class="form-control" name="fornecedor" value="" id="" required>
+                        <label for="fornecedor" class="form-label">Fornecedor<span class="text-danger fw-bold">*</span></label>
+                        <input type="text" class="form-control" name="fornecedor" value="" id="fornecedor" required>
                     </div>
                     <div class="mb-3 mx-4">
-
-                        <span class="form-label">Categoria</span>
-                        <select class="form-select" name="idcategoria" required>
+                        <label for="idcategoria" class="form-label">Categoria<span class="text-danger fw-bold">*</span></label>
+                        <select class="form-select" name="idcategoria" id="idcategoria" required>
                             <option value="">Selecione</option>
                             <?php $sql = "SELECT * FROM categoria;";
                             $stmt = $conn->prepare($sql);
@@ -270,10 +266,10 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="../cadEspecializacao.php" method="post" data-parsley-validate novalidate>
+                <form action="../cadcategoria.php" method="post" data-parsley-validate novalidate>
                     <div class="mb-3 mx-4">
                         <span class="form-label">Nome</span>
-                        <input type="text" class="form-control" name="nomeCategoria" placeholder="Categoria " required>
+                        <input type="text" class="form-control" name="nome  " placeholder="Categoria " required>
                     </div>
             </div>
             <div class="modal-footer">
@@ -318,8 +314,8 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 echo "<td  class='text-nowrap'>" . $categoria["id"] . "</td>";
                                 echo "<td  class='text-nowrap'>" . $categoria["nome"] . "</td>";
                                 echo "<td class='text-nowrap' ><span>
-                            <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditarCate" . $categoria["id"] . "' data-bs-dismiss='modal'>Editar</button>
-                            <button class='btn btn-danger btn-sm' data-bs-target='#modalDeletarCate" . $categoria["id"] . "' data-bs-toggle='modal' data-bs-dismiss='modal'>Excluir</button>
+                                <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditarCatego" . $categoria["id"] . "' data-bs-dismiss='modal'>Editar</button>
+                                <button class='btn btn-danger btn-sm'                   data-bs-target='#modalDeletarCatego" . $categoria["id"] . "' data-bs-toggle='modal' data-bs-dismiss='modal'>Excluir</button>
                             </td>";
                                 echo "</tr>";
                             }
@@ -334,7 +330,60 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+<!-- Modal Editar Categoria -->
 <?php
+foreach ($categorias as $categoria) {
+  ?>
+  <div class="modal fade" id="modalEditarCatego<?php echo $categoria["id"]; ?>" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Especialização</h1>
+          <a href='produtos.php' class='btn-close'></a>
+        </div>
+        <div class="modal-body">
+          <form action="../categoria/editar.php" method="post" data-parsley-validate novalidate>
+            <input type="hidden" name="id" value="<?php echo $categoria["id"]; ?>">
+            <div class="mb-3 mx-4">
+              <span class="form-label">Nome</span>
+              <input type="text" class="form-control" name="nome"
+                value="<?php echo $categoria["nome"]; ?>" required>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="submit" class="btn btn-primary">Editar</button>
+        </form>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Deletar Especialização -->
+  <div class="modal fade" id="modalDeletarCatego<?php echo $categoria["id"]; ?>" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Categoria <?php echo $categoria["nome"];?>?</h1>
+          <a href='instrutores.php' class='btn-close'></a>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Essa ação ira apagar todos os produtos com essa categoria. </p>
+          <form action="../categoria/deletar.php" method="post">
+            <input type="hidden" name="id" value="<?php echo $categoria["id"]; ?>">
+            <input type="hidden" name="nome" value="<?php echo $categoria["nome "]; ?>">
+        </div>
+        <div class="modal-footer">
+          <a href='produtos.php' class='btn btn-secondary'>Cancelar</a>
+          <button type="submit" name="submit" class="btn btn-danger">Deletar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php
+}
 require "../template/footer.php";
 require "../validarInput.php";
 ?>

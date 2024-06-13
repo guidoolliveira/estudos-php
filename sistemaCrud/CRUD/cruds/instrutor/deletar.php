@@ -8,6 +8,5 @@ if(isset($_POST["id"])) {
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":idinstrutores", $idinstrutores);
     $stmt->execute();
-    header("Location: instrutores.php?nome-instrutor=$nome&deletar=instrutor");
-
+    header("Location: instrutores.php?alerta=deletadoInstrutor&nome-instrutor=$nome");
 }

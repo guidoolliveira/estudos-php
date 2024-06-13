@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `instrutores` (
   PRIMARY KEY (`idinstrutores`),
     FOREIGN KEY (`idespecializacao`)
     REFERENCES `especializacao` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `produtos` (
   PRIMARY KEY (`id`),
     FOREIGN KEY (`idcategoria`)
     REFERENCES `categoria` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -92,14 +92,14 @@ CREATE TABLE IF NOT EXISTS `cursos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `descricao` VARCHAR(45) NOT NULL,
-  `horaInicio` VARCHAR(45) NOT NULL,
-  `horaFinal` VARCHAR(45) NOT NULL,
-  `dias` TIME(0) NOT NULL,
+  `horaInicio` TIME NOT NULL,
+  `horaFinal` TIME NOT NULL,
+  `dias` VARCHAR(10) NOT NULL,
   `idinstrutores` INT NOT NULL,
   PRIMARY KEY (`id`),
     FOREIGN KEY (`idinstrutores`)
     REFERENCES `instrutores` (`idinstrutores`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 INSERT INTO login (nome, email, usuario, senha, nivelAcesso) VALUES ("administrador" , "admin@gmail.com" , "admin" ,"12345678" ,"1");

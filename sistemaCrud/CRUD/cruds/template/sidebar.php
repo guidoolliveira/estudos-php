@@ -42,14 +42,13 @@ foreach ($result as $dados)
       </a>
     </li>
     <li class="nav-item mb-2">
-      <a href="" class="active text-decoration-none text-white rounded-1 d-block w-100">
+      <a href="../curso/cursos.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
         <i class="fa-solid fa-file-circle-exclamation"></i>
         Relatórios
       </a>
     </li>
     <?php
       if($_SESSION["acesso"] == 1){
-        
         echo '<hr>
         <h5 class="fs-5">Painel Administrativo</h5>
     <li class="nav-item mb-2">
@@ -68,7 +67,6 @@ foreach ($result as $dados)
     <span>
       <i class="fa-solid fa-user"></i>
       <small class="mb-0">
-
         <?php
         echo $dados["usuario"];
         ?>

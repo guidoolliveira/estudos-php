@@ -12,8 +12,8 @@ isset($_POST["celular"]) && !empty($_POST["celular"])) {
     $stmt->bindValue("idespecializacao", $idespecializacao);
     $stmt->bindValue("celular", $celular);
     $stmt->execute();
-    header("Location: instrutores.php?nome-instrutor=$nome&success=ok");
+    header("Location: instrutores.php?alerta=cadastroInstrutor&nome-instrutor=$nome");
 }else{
     // Campos nao preenchidos
-    header("Location: instrutores.php?erro=1");
+    header("Location: instrutores.php?alerta=preencher-campos");
 }

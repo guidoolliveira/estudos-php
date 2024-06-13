@@ -65,8 +65,8 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         echo "<td>" . $funcionario["usuario"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
                             echo "<td><span>
-              <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $funcionario['id'] . "'>Excluir</button>
-              <button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditar" . $funcionario['id'] . "'>Editar</button>
+                            <button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditar" . $funcionario['id'] . "'>Editar</button>
+                            <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $funcionario['id'] . "'>Excluir</button>
               </span>
           </td>";
                         }

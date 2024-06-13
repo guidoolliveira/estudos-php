@@ -7,8 +7,8 @@ isset($_POST["nomeEspecializacao"]) && !empty($_POST["nomeEspecializacao"])) {
     $stmt= $conn->prepare($sql);
     $stmt->bindValue("nomeEspecializacao", $nomeEspecializacao);
     $stmt->execute();
-    header("Location: ../instrutor/instrutores.php?nomeEspecializacao=$nomeEspecializacao");
+    header("Location: ../instrutor/instrutores.php?alerta=cadastroEspecializacao&nome-especializacao=$nomeEspecializacao");
 }else{
     // Campos nao preenchidos
-    header("Location:  ../instrutor/instrutores.php?erro=1");
+    header("Location:  ../instrutor/instrutores.php?alerta=preencher-campos");
 }
