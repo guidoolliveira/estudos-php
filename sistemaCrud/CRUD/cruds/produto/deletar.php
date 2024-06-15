@@ -8,8 +8,5 @@ if(isset($_POST["id"])) {
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
-    header("Location: produtos.php?nome-produto=$nome&deletar=ok");
-
-}else{
-    header("Location: produtos.php?nome-produto=$nome&deletar=erro");
+    header("Location: produtos.php?alerta=deletadoProduto&nome-produto=$nome");
 }

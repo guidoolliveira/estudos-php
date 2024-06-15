@@ -8,8 +8,7 @@ if(isset($_POST["id"]) && $nome = $_POST["nome"]) {
   $stmt->bindValue(":nome", $nome);
   $stmt->bindValue(":id", $id);
   $stmt->execute();
-  header("Location: ../produto/produtos.php?nome-especializacao=$nome&editado");
+  header("Location: ../produto/produtos.php?alerta=editadoCategoria&nome-categoria=$nome&editado");
 } else {
-  header("Location: ../produto/produtos.php?erro=1");
-  
+  header("Location:  ../produto/produtos.php?alerta=preencher-campos");
 }

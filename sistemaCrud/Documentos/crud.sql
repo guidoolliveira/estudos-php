@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `produtos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `quantidade` INT NOT NULL DEFAULT 0,
-  `preço` FLOAT NOT NULL,
+  `preco` FLOAT NOT NULL,
   `fornecedor` VARCHAR(45) NOT NULL,
   `idcategoria` INT NOT NULL,
   PRIMARY KEY (`id`),

@@ -41,7 +41,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php
     if (count($login) > 0) { ?>
         <div class="table-responsive">
-            <table class="table table-dark table-striped">
+            <table class="table table-dark table-striped table-hover table-bordered">
                 <thead class="">
                     <tr>
                         <th>Id</th>
@@ -78,7 +78,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <?php
     } else {
-        echo '<h3 class="text-warning text-center">Ainda não há intrutores cadastrados!</h3>';
+        echo '<h3 class="text-warning text-center">Ainda não há funcionários cadastrados!</h3>';
 
     } ?>
 </div>

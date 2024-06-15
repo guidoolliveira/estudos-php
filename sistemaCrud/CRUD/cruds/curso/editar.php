@@ -1,24 +1,26 @@
 <?php
-require "../../dbconfig/conexao.php";
-
-if (isset($_POST["id"]) && !empty($_POST["id"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["senha"]) && !empty($_POST["senha"])) {
+if (isset($_POST["id"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["comeco"]) && !empty($_POST["comeco"]) && isset($_POST["fim"]) && !empty($_POST["fim"]) && isset($_POST["descricao"]) && !empty($_POST["descricao"]) && isset($_POST["dias"]) && !empty($_POST["dias"]) && isset($_POST["instrutor"]) && !empty($_POST["instrutor"])) {
+  require ("../../dbconfig/conexao.php");
   $id = $_POST["id"];
   $nome = $_POST["nome"];
-  $email = $_POST["email"];
-  $usuario = $_POST["usuario"];
-  $senha = $_POST["senha"];
+  $comeco = $_POST["comeco"];
+  $fim = $_POST["fim"];
+  $descricao = $_POST["descricao"];
+  $instrutor = $_POST["instrutor"];
+  $dias = $_POST["dias"];
 
-  $sql = "UPDATE login SET nome = :nome, email = :email, usuario = :usuario, senha = :senha WHERE id = :id";
-  $stmt = $conn->prepare($sql);
-  $stmt->bindValue(":nome", $nome);
-  $stmt->bindValue(":email", $email);
-  $stmt->bindValue(":usuario", $usuario);
-  $stmt->bindValue(":senha", $senha);
-  $stmt->bindValue(":id", $id);
+  $sql = "UPDATE cursos SET nome = :nome, horaInicio = :horaInicio, horaFinal = :horaFinal, descricao = :descricao, dias = :dias, idinstrutores = :idinstrutores WHERE id = :id;";
+  $stmt= $conn->prepare($sql);
+  $stmt->bindValue("id", $id);
+  $stmt->bindValue("nome", $nome);
+  $stmt->bindValue("horaInicio", $comeco);
+  $stmt->bindValue("horaFinal", $fim);
+  $stmt->bindValue("descricao", $descricao);
+  $stmt->bindValue("dias", $dias);
+  $stmt->bindValue("idinstrutores", $instrutor);
   $stmt->execute();
-
-  header("Location: funcionarios.php?nome-funcionario=$nome&edit=ok");
-} else {
-  header("Location: funcionarios.php?erro=1");
-  
+  header("Location: cursos.php?alerta=editadoCurso&nome-curso=$nome");
+}else{
+  // Campos nao preenchidos
+  header("Location: instrutores.php?alerta=preencher-campos");
 }

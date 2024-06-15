@@ -18,8 +18,7 @@ foreach ($result as $dados)
     <a href="../../index.php" class="navbar-brand">
       <h5><i style="font-size: 28px;" class="fa-solid fa-shop me-2"></i> PresidiOnStock</h5>
     </a>
-    <span class="mt-1 me-0"><button type="button" class="btn-close text-reset"
-        data-bs-dismiss="offcanvas"></button></span>
+    <span class="mt-1 me-0"><button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button></span>
   </div>
   <hr>
   <ul id="sidebar" class="nav nav-pills flex-column mb-auto">
@@ -48,8 +47,8 @@ foreach ($result as $dados)
       </a>
     </li>
     <?php
-      if($_SESSION["acesso"] == 1){
-        echo '<hr>
+  if ($_SESSION["acesso"] == 1) {
+    echo '<hr>
         <h5 class="fs-5">Painel Administrativo</h5>
     <li class="nav-item mb-2">
       <a href="../funcionario/funcionarios.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
@@ -57,10 +56,10 @@ foreach ($result as $dados)
         Funcionários
       </a>
     </li>';
-      }
-    
+  }
+
     ?>
-    
+
   </ul>
   <hr class="my-2">
   <div class="d-flex" id="footer-nav">
@@ -87,10 +86,14 @@ foreach ($result as $dados)
       </a>
       <a href="../../index.php" class="ms-3 fw-semibold text-white text-decoration-none">PresidiOnStock</a>
     </div>
-    <button type="button" class="btn btn-outline-danger btn-sm " data-bs-toggle="modal"
-      data-bs-target="#modalLogOut">
-      Sair da conta
-    </button>
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <?php echo $dados["usuario"] ?>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalLogOut">Sair da Conta</a></li>
+      </ul>
+    </div>
 
     <!-- Modal Sair -->
     <div class="modal fade" id="modalLogOut" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

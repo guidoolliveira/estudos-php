@@ -4,12 +4,9 @@ if(isset($_POST["id"])) {
     $nome = $_POST["nome"];
     $id = $_POST["id"];
     
-    $sql = "DELETE FROM login WHERE id = :id";
+    $sql = "DELETE FROM cursos WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
-    header("Location: funcionarios.php?nome-funcionario=$nome&deletar=ok");
-
-}else{
-    header("Location: funcionarios.php?nome-funcionario=$nome&deletar=erro");
+    header("Location: cursos.php?alerta=deletadoCurso&nome-curso=$nome");
 }

@@ -67,9 +67,9 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <?php
   if (count($instrutores) > 0) { ?>
     <div class="table-responsive">
-      <table class="table table-dark table-striped">
+      <table class="table table-dark table-striped table-hover table-bordered">
         <thead class="">
-          <tr>
+          <tr class="text-center">
             <th>Id</th>
             <th>Nome</th>
             <th>Especialização</th>
@@ -84,7 +84,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody>
           <?php
           foreach ($instrutores as $instrutor) {
-            echo "<tr>";
+            echo "<tr  class='text-center'>";
             echo "<td>" . $instrutor["idinstrutores"] . "</td>";
             echo "<td class='text-nowrap'>" . $instrutor["nome"] . "</td>";
             $idespecializacao = $instrutor["idespecializacao"];

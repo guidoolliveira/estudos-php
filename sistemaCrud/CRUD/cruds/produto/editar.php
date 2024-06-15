@@ -25,7 +25,7 @@
   $stmt->bindValue(":id", $id);
   $stmt->execute();
 
-  header("Location: produtos.php?nome-produto=$nome&edit=ok");
+  header("Location: produtos.php?alerta=editadoProduto&nome-produto=$nome");
 } else {
-  header("Location: produtos.php?erro=1");
+  header("Location: produtos.php?alerta=preencher-campos");
 }

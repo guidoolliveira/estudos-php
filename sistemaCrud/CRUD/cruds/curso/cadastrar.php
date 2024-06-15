@@ -1,40 +1,24 @@
 <?php
-if (isset($_POST["submit"]) && isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["senha"]) && !empty($_POST["senha"])) {
+if (isset($_POST["nome"]) && !empty($_POST["nome"]) && isset($_POST["comeco"]) && !empty($_POST["comeco"]) && isset($_POST["fim"]) && !empty($_POST["fim"]) && isset($_POST["descricao"]) && !empty($_POST["descricao"]) && isset($_POST["dias"]) && !empty($_POST["dias"]) && isset($_POST["instrutor"]) && !empty($_POST["instrutor"])) {
     require ("../../dbconfig/conexao.php");
     $nome = $_POST["nome"];
-    $email = $_POST["email"];
-    $usuario = $_POST["usuario"];
-    $senha = $_POST["senha"];
+    $comeco = $_POST["comeco"];
+    $fim = $_POST["fim"];
+    $descricao = $_POST["descricao"];
+    $instrutor = $_POST["instrutor"];
+    $dias = $_POST["dias"];
 
-    if ($email && $usuario && $senha) {
-        $sql = "SELECT * FROM login WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindValue(":email", $email);
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            header("Location: funcionarios.php?erro=1");
-        } else {
-            $sql = "SELECT * FROM login WHERE usuario = :usuario";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindValue(":usuario", $usuario);
-            $stmt->execute();
-            // erro 1 = email-ja-cadastrado
-            // erro 2 = usuario-ja-cadastrado
-            // erro 3 = preencha-todos-os-campos
-            if ($stmt->rowCount() > 0) {
-                header("Location: funcionarios.php?erro=2");
-            } else {
-                $sql = "INSERT INTO login (nome,email,usuario,senha) VALUES (:nome, :email, :usuario, :senha)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindValue(":nome", $nome);
-                $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":usuario", $usuario);
-                $stmt->bindValue(":senha", $senha);
-                $stmt->execute();
-                header("Location: funcionarios.php?resposta=ok");
-            }
-        }
-    }
-} else {
-    header("Location: funcionarios.php?erro=3");
+    $sql = "INSERT INTO cursos(nome, horaInicio, horaFinal, descricao, dias, idinstrutores) VALUES(:nome, :horaInicio, :horaFinal, :descricao, :dias, :idinstrutores);";
+    $stmt= $conn->prepare($sql);
+    $stmt->bindValue("nome", $nome);
+    $stmt->bindValue("horaInicio", $comeco);
+    $stmt->bindValue("horaFinal", $fim);
+    $stmt->bindValue("descricao", $descricao);
+    $stmt->bindValue("dias", $dias);
+    $stmt->bindValue("idinstrutores", $instrutor);
+    $stmt->execute();
+    header("Location: cursos.php?alerta=cadastroCurso&nome-curso=$nome");
+}else{
+    // Campos nao preenchidos
+    header("Location: instrutores.php?alerta=preencher-campos");
 }

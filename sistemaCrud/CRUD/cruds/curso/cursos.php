@@ -3,7 +3,7 @@ erro 2 = usuario-ja-cadastrado
 erro 3 = preencha-todos-os-campos -->
 <?php
 require "../template/sidebar.php";
-$sql = "SELECT c.nome, c.id, c.descricao, c.dias, c.horaInicio, c.horaFinal, i.nome as instrutor FROM cursos as c join instrutores as i ON c.idinstrutores = i.idinstrutores;
+$sql = "SELECT c.nome, c.id, c.descricao, c.dias, c.horaInicio, c.horaFinal, i.nome as instrutor, i.idinstrutores as idInstrutor FROM cursos as c join instrutores as i ON c.idinstrutores = i.idinstrutores;
 ";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -13,8 +13,34 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h2 class="mb-0 mt-3 py-0">Cursos</h2>
     <hr class="mt-0">
     <?php
-    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar</button>';
-    ?>
+    $corAlerta = "";
+    $mensagemAlerta = "";
+    if (isset($_GET["alerta"])) {
+        if ($_GET["alerta"] == "preencher-campos") {
+            $corAlerta = "danger";
+            $mensagemAlerta = "Preencha todos os campos!";
+        }
+        if ($_GET["alerta"] == "cadastroCurso") {
+            $corAlerta = "success";
+            $mensagemAlerta = "O curso " . $_GET['nome-curso'] . " foi cadatrado com sucesso!";
+        }
+        if ($_GET["alerta"] == "editadoCurso") {
+            $corAlerta = "success";
+            $mensagemAlerta = "O curso " . $_GET['nome-curso'] . " foi editado com sucesso!";
+        }
+        if ($_GET["alerta"] == "deletadoCurso") {
+            $corAlerta = "danger";
+            $mensagemAlerta = "O curso " . $_GET['nome-curso'] . " foi deletado com sucesso!";
+          }
+        echo "
+      <div class='alert alert-$corAlerta alert-dismissible fade show fw-semibold text-center' role='alert'>
+        <span>$mensagemAlerta</span>
+        <a href='cursos.php' class='btn-close'></a>
+      </div>";
+    }if($_SESSION["acesso"] == 1){
+    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar Curso</button>';
+    
+    }?>
     <?php
     if (count($cursos) > 0) { ?>
         <div class="table-responsive">
@@ -22,8 +48,8 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <thead class="">
                     <tr class="text-center">
                         <th>Nome</th>
-                        <th>Começo</th>
-                        <th>Fim</th>
+                        <th>Começa</th>
+                        <th>Termina</th>
                         <th>Dias</th>
                         <th>Descrição</th>
                         <th>Instrutor</th>
@@ -42,10 +68,10 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         echo "<td class='text-nowrap' >" . $curso["horaInicio"] . "</td>";
                         echo "<td>" . $curso["horaFinal"] . "</td>";
                         echo "<td >" . $curso["dias"] . "</td>";
-                        echo "<td>" . $curso["descricao"] . "</td>";
-                        echo "<td>" . $curso["instrutor"] . "</td>";
+                        echo "<td class='text-nowrap'>" . $curso["descricao"] . "</td>";
+                        echo "<td class='text-nowrap'>" . $curso["instrutor"] . "</td>";
                         if ($_SESSION["acesso"] == 1) {
-                            echo "<td><span>
+                            echo "<td class='text-nowrap'><span>
                             <button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#modalEditar" . $curso['id'] . "'>Editar</button>
                             <button class='btn btn-danger btn-sm ' data-bs-toggle='modal' data-bs-target='#modalDeletar" . $curso['id'] . "'>Excluir</button>
               </span>
@@ -57,24 +83,20 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
             </table>
         </div>
-        <?php
+    <?php
     } else {
-        echo '<h3 class="text-warning text-center">Ainda não há intrutores cadastrados!</h3>';
-
+        echo '<h3 class="text-warning text-center">Ainda não há cursos cadastrados!</h3>';
     } ?>
 </div>
 </div>
 
 <?php foreach ($cursos as $curso) { ?>
     <!-- Modal deletar -->
-    <div class="modal fade" id="modalDeletar<?php echo $curso['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDeletar<?php echo $curso['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o cur$curso <?php
-                    echo $curso['usuario']
-                        ?>? </h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o curso <?php echo $curso['nome']?>?</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -92,8 +114,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <!-- Modal Editar -->
-    <div class="modal fade" id="modalEditar<?php echo $curso['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditar<?php echo $curso['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,29 +123,49 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="modal-body">
                     <form action="editar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id" value="<?php echo $curso['id']; ?>">
+                    <input type="hidden" name="id" id="id" value="<?php echo $curso['id']; ?>" required>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="<?php echo $curso['nome']; ?>"
-                                required>
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" name="nome" id="nome" value="<?php echo $curso['nome']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Email</span>
-                            <input type="text" class="form-control" name="email" value="<?php echo $curso['email']; ?>"
-                                required>
+                            <label for="comeco" class="form-label">Hora de Inicio</label>
+                            <input type="time" class="form-control" name="comeco" id="comeco" value="<?php echo $curso['horaInicio']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control" name="usuario" value="<?php echo $curso['usuario']; ?>"
-                                required>
+                            <label for="fim" class="form-label">Hora de Término</label>
+                            <input type="time" class="form-control" name="fim" id="fim" value="<?php echo $curso['horaFinal']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Senha</span>
-                            <input type="text" class="form-control" name="senha" value="<?php echo $curso['senha']; ?>"
-                                required>
-                            <div class="invalid-feedback">
-                                Preencha este campo!
-                            </div>
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <input type="text" class="form-control" name="descricao" id="descricao" value="<?php echo $curso['descricao']; ?>" required>
+                        </div>
+                        <div class="mb-3 mx-4">
+                            <label for="dias" class="form-label">Dias</label>
+                            <select name="dias" id="dias" class="form-select" required>
+                                <option value="">Selecione</option>
+                                <option value="Seg/Qua" <?php if($curso['dias'] == 'Seg/Qua'){ echo 'selected';} ?>>Seg/Qua</option>
+                                <option value="Ter/Qui" <?php if($curso['dias'] == 'Ter/Qui'){ echo 'selected';} ?>>Ter/Qui</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 mx-4">
+                            <span class="form-label">Instrutor</span>
+                            <select class="form-select" name="instrutor" required>
+                                <option value="">Selecione</option>
+                                <?php
+                                $sql = "SELECT * FROM instrutores;";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+                                $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($instrutores as $instrutor) {
+                                    if ($instrutor["idinstrutores"] == $curso["idInstrutor"]) {
+                                        echo "<option value='" . $instrutor['idinstrutores'] . "' selected>" . $instrutor['nome'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $instrutor['idinstrutores'] . "' >" . $instrutor['nome'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -135,13 +176,12 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-    <?php
+<?php
 }
 ?>
 
 <!-- Modal Cadastrar -->
-<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -155,38 +195,43 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type="text" class="form-control" name="nome" id="nome" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="comeco" class="form-label">Começo</label>
-                        <input type="comeco" class="form-control" name="comeco" id="comeco" required>
+                        <label for="comeco" class="form-label">Hora de Inicio</label>
+                        <input type="time" class="form-control" name="comeco" id="comeco" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="fim" class="form-label">Fim</label>
-                            <input type="text" class="form-control" name="fim" id="fim" required>
+                        <label for="fim" class="form-label">Hora de Término</label>
+                        <input type="time" class="form-control" name="fim" id="fim" required>
                     </div>
                     <div class="mb-3 mx-4">
                         <label for="descricao" class="form-label">Descrição</label>
                         <input type="text" class="form-control" name="descricao" id="descricao" required>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <label for="dias" class="form-label">Dias</label>
-                            <select name="dias" id="dias" class="form-select" required>
-                                <option value="">Selecione</option>
-                                <option value="Seg/Qua">Seg/Qua</option>
-                                <option value="Ter/Qui">Ter/Qui</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Instrutor</span>
-                            <select class="form-select" name="instrutor" required>
-                                <option value="">Selecione</option>
-                                <?php $sql = "SELECT * FROM instrutores;";
-                                $stmt = $conn->prepare($sql);
-                                $stmt->execute();
-                                $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($instrutores as $instrutor) {
-                                    echo "<option value=" . $instrutor["idinstrutores "] . ">" . $instrutor["nome"] . "</option>";
-                                }
-                                ?>
-                            </select>
+                    </div>
+                    <div class="mb-3 mx-4">
+                        <label for="dias" class="form-label">Dias</label>
+                        <select name="dias" id="dias" class="form-select" required>
+                            <option value="">Selecione</option>
+                            <option value="Seg/Qua">Seg/Qua</option>
+                            <option value="Ter/Qui">Ter/Qui</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mx-4">
+                        <label for="instrutor" class="form-label">Instrutor</label>
+                        <a href="../instrutor/instrutores.php"><i class="fa-solid fa-user-plus"></i></a>
+                        <select class="form-select" id="instrutor" name="instrutor" required>
+                            <option value="">Selecione</option>
+                            <?php $sql = "SELECT * FROM instrutores;";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                            $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($instrutores as $instrutor) {
+                                echo "<option value='" . $instrutor['idinstrutores'] . "'>" . $instrutor['nome'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                        
+                        
+                        
                     </div>
             </div>
             <div class="modal-footer">

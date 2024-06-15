@@ -20,8 +20,8 @@ if (
     $stmt->bindValue("fornecedor", $fornecedor);
     $stmt->bindValue("idcategoria", $idcategoria);
     $stmt->execute();
-    header("Location: produtos.php");
+    header("Location: produtos.php?alerta=cadastroProduto&nome-produto=$nome");
 } else {
     // Campos nao preenchidos
-    header("Location: produtos.php?erro=1");
+    header("Location: produtos.php?alerta=preencher-campos");
 }
