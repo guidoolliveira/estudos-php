@@ -42,8 +42,8 @@ foreach ($result as $dados)
     </li>
     <li class="nav-item mb-2">
       <a href="../curso/cursos.php" class="active text-decoration-none text-white rounded-1 d-block w-100">
-        <i class="fa-solid fa-file-circle-exclamation"></i>
-        Relatórios
+        <i class="fa-solid fa-pen"></i>
+        Cursos
       </a>
     </li>
     <?php
