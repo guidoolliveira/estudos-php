@@ -12,6 +12,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h2 class="mb-0 mt-3 py-0">Funcionários</h2>
     <hr class="mt-0">
     <?php
+    
     if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
         echo "<div style='top: 3rem' class=''>
           <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
@@ -76,31 +77,27 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
             </table>
         </div>
-        <?php
+    <?php
     } else {
         echo '<h3 class="text-warning text-center">Ainda não há funcionários cadastrados!</h3>';
-
     } ?>
 </div>
 </div>
 
 <?php foreach ($login as $funcionario) { ?>
     <!-- Modal deletar -->
-    <div class="modal fade" id="modalDeletar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDeletar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o funcionario <?php
-                    echo $funcionario['usuario']
-                        ?>? </h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o funcionario <?php echo $funcionario['usuario']?>? </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <span>Está ação é irreversível!</span>
+                    <label>Está ação é irreversível!</label>
                     <form method='post' action='deletar.php'>
                         <input type='hidden' name='id' value="<?php echo $funcionario['id']; ?>" />
-                        <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" /> 
+                        <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -111,8 +108,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <!-- Modal Editar funcionario -->
-    <div class="modal fade" id="modalEditar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static"
-        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditar<?php echo $funcionario['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -123,24 +119,20 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <form action="editar.php" method="post" data-parsley-validate novalidate>
                         <input type="hidden" name="id" value="<?php echo $funcionario['id']; ?>">
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="<?php echo $funcionario['nome']; ?>"
-                                required>
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" name="nome" id="nome" value="<?php echo $funcionario['nome']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Email</span>
-                            <input type="text" class="form-control" name="email"
-                                value="<?php echo $funcionario['email']; ?>" required>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" name="email" id="email" value="<?php echo $funcionario['email']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control" name="usuario"
-                                value="<?php echo $funcionario['usuario']; ?>" required>
+                            <label for="usuario" class="form-label">Usuário</label>
+                            <input type="text" class="form-control" id="usuario" name="usuario" value="<?php echo $funcionario['usuario']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Senha</span>
-                            <input type="text" class="form-control" name="senha" 
-                                value="<?php echo $funcionario['senha']; ?>" required>
+                            <label for="senha2" class="form-label">Senha</label>
+                            <input type="text" class="form-control" id="senha2" name="senha" value="<?php echo $funcionario['senha']; ?>" required>
                             <div class="invalid-feedback">
                                 Preencha este campo!
                             </div>
@@ -154,54 +146,53 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-     <?php
-    }
-    ?>
-    
+<?php
+}
+?>
+
 <!-- Modal Cadastrar -->
-    <div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Funcionario</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
-                        <input type="hidden" name="id">
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Nome</span>
-                            <input type="text" class="form-control" name="nome" value="" required>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Email</span>
-                            <input type="email" class="form-control" name="email" value="" required>
-                        </div>
-                        <div class="mb-3 mx-4">
-                            <span class="form-label">Usuário</span>
-                            <input type="text" class="form-control" name="usuario" value="" required>
-                        </div>
-                        <div class="mb-1 mx-4">
-                            <span class="form-label">Senha</span>
-                            <input type="password" class="form-control" name="senha" value="" id="senha" required>
-                        </div>
-                        <div class="form-check mx-4">
-                            <input class="form-check-input me-2" onclick="mostrarSenha()" type="checkbox"  value="" id="mostrar">
-                            <label class="form-check-label" for="mostrar">
-                                Mostrar Senha
-                            </label>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
-                    </form>
-                </div>
+<div class="modal fade" id="modalCadastrar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar Funcionario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
+                    <input type="hidden" name="id">
+                    <div class="mb-3 mx-4">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="nome" value="" required>
+                    </div>
+                    <div class="mb-3 mx-4">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" value="" required>
+                    </div>
+                    <div class="mb-3 mx-4">
+                        <label class="form-label">Usuário</label>
+                        <input type="text" class="form-control" name="usuario" value="" required>
+                    </div>
+                    <div class="mb-1 mx-4">
+                        <label class="form-label">Senha</label>
+                        <input type="password" class="form-control" name="senha" value="" id="senha" required>
+                    </div>
+                    <div class="form-check mx-4">
+                        <input class="form-check-input me-2" onclick="mostrarSenha()" type="checkbox" value="" id="mostrar">
+                        <label class="form-check-label" for="mostrar">
+                            Mostrar Senha
+                        </label>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
+                </form>
             </div>
         </div>
     </div>
-   
+</div>
+
 <?php
 require "../template/footer.php";
 require "../validarInput.php";
