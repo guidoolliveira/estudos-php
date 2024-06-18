@@ -310,8 +310,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </table>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      <div class="modal-footer">          
+        <a href='instrutores.php' class='btn btn-secondary'>Fechar</a>
       </div>
     </div>
   </div>
@@ -338,7 +338,7 @@ foreach ($especializacoes as $especializacao) {
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <a href='instrutores.php' class='btn btn-danger'>Cancelar</a>
           <button type="submit" name="submit" class="btn btn-primary">Editar</button>
           </form>
         </div>

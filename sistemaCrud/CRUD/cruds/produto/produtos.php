@@ -139,7 +139,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type='hidden' name='nome' value="<?php echo $produto['nome']; ?>" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='produtos.php' class='btn btn-secondary'>Cancelar</a>
                     <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </div>
@@ -198,7 +198,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='produtos.php' class='btn btn-danger'>Cancelar</a>
                     <button type="submit" name="submit" class="btn btn-primary">Editar</button>
                     </form>
                 </div>
@@ -256,7 +256,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <a href='produtos.php' class='btn btn-danger'>Cancelar</a>
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>
@@ -279,7 +279,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <a href='produtos.php' class='btn btn-danger'>Cancelar</a>
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>
@@ -330,7 +330,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <a href='produtos.php' class='btn btn-secondary'>Fechar</a>
             </div>
         </div>
     </div>
@@ -355,7 +355,7 @@ foreach ($categorias as $categoria) {
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='produtos.php' class='btn btn-secondary'>Cancelar</a>
                     <button type="submit" name="submit" class="btn btn-primary">Editar</button>
                     </form>
                 </div>

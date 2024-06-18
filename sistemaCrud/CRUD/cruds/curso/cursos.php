@@ -7,14 +7,14 @@ $stmt->execute();
 $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-    <h2 class="mb-0 mt-3 py-0"><i class="fa-solid fa-pen me-3 ms-2 fs-2"></i>Cursos: 
-    <?php
-    $sql = "SELECT * FROM cursos;";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $resultado = $stmt->rowCount();
-    echo $resultado;
-    ?>
+    <h2 class="mb-0 mt-3 py-0"><i class="fa-solid fa-pen me-3 ms-2 fs-2"></i>Cursos:
+        <?php
+        $sql = "SELECT * FROM cursos;";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->rowCount();
+        echo $resultado;
+        ?>
     </h2>
     <hr class="mt-0">
     <?php
@@ -111,7 +111,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type='hidden' name='nome' value="<?php echo $curso['nome']; ?>" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='cursos.php' class='btn btn-secondary'>Cancelar</a>
                     <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </div>
@@ -178,7 +178,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='cursos.php' class='btn btn-danger'>Cancelar</a>
                     <button type="submit" name="submit" class="btn btn-primary">Editar</button>
                     </form>
                 </div>
@@ -244,7 +244,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <a href='cursos.php' class='btn btn-danger'>Cancelar</a>
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>

@@ -72,10 +72,10 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             echo "<td class='text-nowrap' >" . $funcionario["nome"] . "</td>";
                             echo "<td>" . $funcionario["email"] . "</td>";
                             echo "<td>" . $funcionario["usuario"] . "</td>";
-                            if($funcionario["nivelAcesso"] == "1"){
-                                $acesso="Administrador";
-                            }else{
-                                $acesso="Funcionário";
+                            if ($funcionario["nivelAcesso"] == "1") {
+                                $acesso = "Administrador";
+                            } else {
+                                $acesso = "Funcionário";
                             }
                             echo "<td>" . $acesso . "</td>";
                             if ($_SESSION["acesso"] == 1) {
@@ -115,7 +115,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type='hidden' name='nome' value="<?php echo $funcionario['nome']; ?>" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='funcionarios.php' class='btn btn-secondary'>Cancelar</a>
                     <button type="submit" class="btn btn-danger">Excluir</button>
                     </form>
                 </div>
@@ -150,15 +150,19 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" class="form-control" id="senha2" name="senha" value="<?php echo $funcionario['senha']; ?>" required>
                         </div>
                         <div class="mb-1 mx-4">
-                        <label class="form-label">Nivel de acesso<span class="text-danger fw-bold">*</span></label>
-                        <select class="form-select" name="nivelAcesso" id="nivelAcesso" required>
-                            <option value="1" <?php if($funcionario["nivelAcesso"] == "1"){echo "selected";}?>>Adminstrador</option>
-                            <option value="0" <?php if($funcionario["nivelAcesso"] == "0"){echo "selected";}?>>Funcionário</option>
-                        </select>
-                    </div>
+                            <label class="form-label">Nivel de acesso<span class="text-danger fw-bold">*</span></label>
+                            <select class="form-select" name="nivelAcesso" id="nivelAcesso" required>
+                                <option value="1" <?php if ($funcionario["nivelAcesso"] == "1") {
+                                                        echo "selected";
+                                                    } ?>>Adminstrador</option>
+                                <option value="0" <?php if ($funcionario["nivelAcesso"] == "0") {
+                                                        echo "selected";
+                                                    } ?>>Funcionário</option>
+                            </select>
+                        </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='funcionarios.php' class='btn btn-danger'>Cancelar</a>
                     <button type="submit" name="submit" class="btn btn-primary">Editar</button>
                     </form>
                 </div>
@@ -212,7 +216,7 @@ $login = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <a href='funcionarios.php' class='btn btn-danger'>Cancelar</a>
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>
