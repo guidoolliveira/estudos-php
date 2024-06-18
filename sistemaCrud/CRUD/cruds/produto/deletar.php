@@ -9,4 +9,6 @@ if(isset($_POST["id"])) {
     $stmt->bindValue(":id", $id);
     $stmt->execute();
     header("Location: produtos.php?alerta=deletadoProduto&nome-produto=$nome");
-}
+}else {
+    header("Location:  produtos.php?alerta=preencher-campos");
+  }

@@ -6,18 +6,20 @@ $stmt->execute();
 $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-  <h2 class="mb-0 mt-3"><i class="fa-solid fa-users me-3 ms-2 fs-2"></i>Instrutores: <?php
-  $sql = "SELECT * FROM instrutores;";
-  $stmt = $conn->prepare($sql);
-  $stmt->execute();
-  $resultado = $stmt->rowCount();
-  echo $resultado;
-  ?></h2>
+  <h2 class="mb-0 mt-3"><i class="fa-solid fa-users me-3 ms-2 fs-2"></i>Instrutores:
+    <?php
+    $sql = "SELECT * FROM instrutores;";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $resultado = $stmt->rowCount();
+    echo $resultado;
+    ?></h2>
   <hr class="mt-0">
   <?php
-  $corAlerta = "";
-  $mensagemAlerta = "";
+
   if (isset($_GET["alerta"])) {
+    $corAlerta = "";
+    $mensagemAlerta = "";
     if ($_GET["alerta"] == "preencher-campos") {
       $corAlerta = "danger";
       $mensagemAlerta = "Preencha todos os campos!";
@@ -31,7 +33,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $mensagemAlerta = "O instrutor " . $_GET['nome-instrutor'] . " foi editado com sucesso!";
     }
     if ($_GET["alerta"] == "deletadoInstrutor") {
-      $corAlerta = "danger";
+      $corAlerta = "success";
       $mensagemAlerta = "O instrutor " . $_GET['nome-instrutor'] . " foi deletado com sucesso!";
     }
     if ($_GET["alerta"] == "cadastroEspecializacao") {
@@ -43,7 +45,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       $mensagemAlerta = "A especialização " . $_GET['nome-especializacao'] . " foi editada com sucesso!";
     }
     if ($_GET["alerta"] == "deletadoEspecializacao") {
-      $corAlerta = "danger";
+      $corAlerta = "success";
       $mensagemAlerta = "A especialização " . $_GET['nome-especializacao'] . " foi deletada com sucesso!";
     }
     echo "
@@ -110,16 +112,14 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tbody>
       </table>
     </div>
-    <?php
+  <?php
   } else {
-    echo '<h3 class="text-warning text-center">Ainda não há intrutores cadastrados!</h3>';
-
+    echo '<h3 class="text-warning text-center">Ainda não há instrutores cadastrados!</h3>';
   } ?>
 </div>
 </div>
 <!-- Modal Cadastrar Instrutor-->
-<div class="modal fade" id="modalCadastro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalCadastro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -130,14 +130,15 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
           <div class="row">
             <div class="mb-3 col-12">
-              <span class="form-label">Nome</span>
-              <input type="text" class="form-control" name="nome" placeholder="Nome do instrutor">
+              <label for="nomeInstrutor" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
+              <input type="text" class="form-control" name="nome" id="nomeInstrutor" placeholder="Nome do instrutor" required>
             </div>
           </div>
           <div class="row">
             <div class="mb-3 col-sm-6">
-              <span class="form-label">Especialização</span>
-              <select class="form-select" name="idespecializacao" required>
+              <label for="idespecializacao" class="form-label">Especialização<span class="text-danger fw-bold">*</span></label>
+              <a class="text-decoration-none fs-5" data-bs-toggle="modal" data-bs-target="#modalCadEspecializacao">+</a>
+              <select class="form-select" name="idespecializacao" id="idespecializacao" required>
                 <option value="">Selecione</option>
                 <?php $sql = "SELECT * FROM especializacao;";
                 $stmt = $conn->prepare($sql);
@@ -150,9 +151,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </select>
             </div>
             <div class="mb-3 col-sm-6">
-              <span class="form-label">Celular</span>
-              <input type="text" class="form-control celular" name="celular" placeholder="xx xxxxx xxxx" maxlength="15"
-                required>
+              <label for="celular" class="form-label">Celular<span class="text-danger fw-bold">*</span></label>
+              <input type="text" class="form-control celular" id="celular" name="celular" placeholder="xx xxxxx xxxx" minlength="15" maxlength="15" required>
             </div>
           </div>
 
@@ -168,18 +168,17 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!-- Modal Deletar Instrutor -->
 <?php foreach ($instrutores as $instrutor) { ?>
-  <div class="modal fade" id="modalDeletar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="modalDeletar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o instrutor <?php
-          echo $instrutor['nome']
-            ?>? </h1>
+                                                                                    echo $instrutor['nome']
+                                                                                    ?>? </h1>
           <a href='instrutores.php' class='btn-close'></a>
         </div>
         <div class="modal-body">
-          <span>Está ação é irreversível!</span>
+          <span class="text-danger">Está ação ira excluir todos os curso em que esse instrutor direciona</span>
           <form method='post' action='deletar.php'>
             <input type='hidden' name='id' value="<?php echo $instrutor['idinstrutores']; ?>" />
             <input type='hidden' name='nome' value="<?php echo $instrutor['nome']; ?>" />
@@ -194,8 +193,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
   <!-- Modal Editar Instrutor -->
-  <div class="modal fade" id="modalEditar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="modalEditar<?php echo $instrutor['idinstrutores']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -206,12 +204,13 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <form action="editar.php" method="post" data-parsley-validate novalidate>
             <input type="hidden" name="id" value="<?php echo $instrutor['idinstrutores']; ?>">
             <div class="mb-3 mx-4">
-              <label class="form-label">Nome</label>
-              <input type="text" class="form-control" name="nome" value="<?php echo $instrutor['nome']; ?>" required>
+              <label for="nome" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
+              <input type="text" class="form-control" name="nome" id="nome" value="<?php echo $instrutor['nome']; ?>" required>
             </div>
             <div class="mb-3 mx-4">
-              <label class="form-label">Especialização</label>
-              <select class="form-select" name="idespecializacao" required>
+              <label for="idespecializacaoEdit" class="form-label">Especialização<span class="text-danger fw-bold">*</span></label>
+              <a class="text-decoration-none fs-5" data-bs-toggle="modal" data-bs-target="#modalCadEspecializacao">+</a>
+              <select class="form-select" name="idespecializacao" id="idespecializacaoEdit" required>
                 <?php
                 $sql = "SELECT * FROM especializacao;";
                 $stmt = $conn->prepare($sql);
@@ -228,9 +227,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
               </select>
             </div>
             <div class="mb-3 mx-4">
-              <label class="form-label">Celular</label>
-              <input type="text" class="form-control celular" name="celular" value="<?php echo $instrutor['celular']; ?>"
-                maxlength="15" required>
+              <label for="celularEdit" class="form-label">Celular<span class="text-danger fw-bold">*</span></label>
+              <input type="text" class="form-control celular" id="celularEdit" name="celular" value="<?php echo $instrutor['celular']; ?>" minlength="15" maxlength="15" required>
             </div>
         </div>
         <div class="modal-footer">
@@ -241,12 +239,11 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
   </div>
-  <?php
+<?php
 }
 ?>
 <!-- Modal Cadastrar Especialização -->
-<div class="modal fade" id="modalCadEspecializacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalCadEspecializacao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -256,8 +253,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-body">
         <form action="../especializacao/cadastrar.php" method="post" data-parsley-validate novalidate>
           <div class="mb-3 mx-4">
-            <label class="form-label">Nome</label>
-            <input type="text" class="form-control" name="nomeEspecializacao" placeholder="Especialização " required>
+            <label for="especializacaoNome" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
+            <input type="text" class="form-control" name="nomeEspecializacao" id="especializacaoNome" placeholder="Especialização " required>
           </div>
       </div>
       <div class="modal-footer">
@@ -270,8 +267,7 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <!-- Modal Visualizar Especializações -->
-<div class="modal fade" id="modalVisualizarEspec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalVisualizarEspec" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -324,9 +320,8 @@ $instrutores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!-- Modal Editar Especialização -->
 <?php
 foreach ($especializacoes as $especializacao) {
-  ?>
-  <div class="modal fade" id="modalEditarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+?>
+  <div class="modal fade" id="modalEditarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -337,9 +332,8 @@ foreach ($especializacoes as $especializacao) {
           <form action="../especializacao/editar.php" method="post" data-parsley-validate novalidate>
             <input type="hidden" name="id" value="<?php echo $especializacao["id"]; ?>">
             <div class="mb-3 mx-4">
-              <span class="form-label">Nome</span>
-              <input type="text" class="form-control" name="nome"
-                value="<?php echo $especializacao["nomeEspecializacao"]; ?>" required>
+              <label for="editEspecializacao" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
+              <input type="text" class="form-control" id="editEspecializacao" name="nome" value="<?php echo $especializacao["nomeEspecializacao"]; ?>" required>
             </div>
 
         </div>
@@ -352,8 +346,7 @@ foreach ($especializacoes as $especializacao) {
     </div>
   </div>
   <!-- Modal Deletar Especialização -->
-  <div class="modal fade" id="modalDeletarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="modalDeletarEspec<?php echo $especializacao["id"]; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -363,7 +356,7 @@ foreach ($especializacoes as $especializacao) {
           <a href='instrutores.php' class='btn-close'></a>
         </div>
         <div class="modal-body">
-          <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Essa ação ira apagar todos os intrutores
+          <p class="text-danger"><i class="fa-solid fa-circle-exclamation"></i> Essa ação ira apagar todos os instrutores
             com essa especialização. </p>
           <form action="../especializacao/deletar.php" method="post">
             <input type="hidden" name="id" value="<?php echo $especializacao["id"]; ?>">
@@ -377,7 +370,7 @@ foreach ($especializacoes as $especializacao) {
       </div>
     </div>
   </div>
-  <?php
+<?php
 }
 ?>
 </script>

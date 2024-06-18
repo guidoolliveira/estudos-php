@@ -9,19 +9,17 @@ if (isset($_POST["login"]) && !empty($_POST["login"]) && isset($_POST["senha"]) 
     $stmt->bindValue("login", $login);
     $stmt->bindValue("senha", $senha);
     $stmt->execute();
-    $qntd = $stmt->rowCount();
-    if ($qntd == 1) {
-        $dado = $stmt->fetch();
-        $_SESSION["idusers"] = $dado["id"];
-        $_SESSION["nome"] = $dado["usuario"];
-        $_SESSION["acesso"] = $dado["nivelAcesso"];
+
+    if ($stmt->rowCount() == 1) {
+        $info = $stmt->fetch();
+        $_SESSION["idusers"] = $info["id"];
+        $_SESSION["nome"] = $info["usuario"];
+        $_SESSION["acesso"] = $info["nivelAcesso"];
         header("Location: ../../index.php");
     }
-// erro 1 = dados-invalidos
-// erro 2 = preencha-todos-os-campos
     else {
-        header("Location: login.php?erro=1");
+        header("Location: login.php?alerta=login-ou-senha-incorretos");
     }
 } else {
-    header("Location: login.php?erro=2");
+    header("Location: login.php?alerta=preencher-campos");
 }

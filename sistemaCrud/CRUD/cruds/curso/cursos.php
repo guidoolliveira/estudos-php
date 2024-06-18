@@ -1,6 +1,3 @@
-<!-- erro 1 = email-ja-cadastrado
-erro 2 = usuario-ja-cadastrado
-erro 3 = preencha-todos-os-campos -->
 <?php
 require "../template/sidebar.php";
 $sql = "SELECT c.nome, c.id, c.descricao, c.dias, c.horaInicio, c.horaFinal, i.nome as instrutor, i.idinstrutores as idInstrutor FROM cursos as c join instrutores as i ON c.idinstrutores = i.idinstrutores;
@@ -10,12 +7,21 @@ $stmt->execute();
 $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container mt-3">
-    <h2 class="mb-0 mt-3 py-0">Cursos</h2>
+    <h2 class="mb-0 mt-3 py-0"><i class="fa-solid fa-pen me-3 ms-2 fs-2"></i>Cursos: 
+    <?php
+    $sql = "SELECT * FROM cursos;";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $resultado = $stmt->rowCount();
+    echo $resultado;
+    ?>
+    </h2>
     <hr class="mt-0">
     <?php
-    $corAlerta = "";
-    $mensagemAlerta = "";
+
     if (isset($_GET["alerta"])) {
+        $corAlerta = "";
+        $mensagemAlerta = "";
         if ($_GET["alerta"] == "preencher-campos") {
             $corAlerta = "danger";
             $mensagemAlerta = "Preencha todos os campos!";
@@ -29,19 +35,18 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $mensagemAlerta = "O curso " . $_GET['nome-curso'] . " foi editado com sucesso!";
         }
         if ($_GET["alerta"] == "deletadoCurso") {
-            $corAlerta = "danger";
+            $corAlerta = "success";
             $mensagemAlerta = "O curso " . $_GET['nome-curso'] . " foi deletado com sucesso!";
-          }
+        }
         echo "
       <div class='alert alert-$corAlerta alert-dismissible fade show fw-semibold text-center' role='alert'>
         <span>$mensagemAlerta</span>
         <a href='cursos.php' class='btn-close'></a>
       </div>";
-    }if($_SESSION["acesso"] == 1){
-    echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar Curso</button>';
-    
-    }?>
-    <?php
+    }
+    if ($_SESSION["acesso"] == 1) {
+        echo '<button class="btn btn-primary mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#modalCadastrar">Cadastrar Curso</button>';
+    }
     if (count($cursos) > 0) { ?>
         <div class="table-responsive">
             <table class="table table-dark table-striped table-hover table-bordered">
@@ -96,8 +101,8 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o curso <?php echo $curso['nome']?>?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir o curso <?php echo $curso['nome'] ?>?</h1>
+                    <a href='cursos.php' class='btn-close'></a>
                 </div>
                 <div class="modal-body">
                     <span>Está ação é irreversível!</span>
@@ -118,39 +123,43 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar cur$curso</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar curso</h1>
+                    <a href='cursos.php' class='btn-close'></a>
                 </div>
                 <div class="modal-body">
                     <form action="editar.php" method="post" data-parsley-validate novalidate>
-                    <input type="hidden" name="id" id="id" value="<?php echo $curso['id']; ?>" required>
+                        <input type="hidden" name="id" id="id" value="<?php echo $curso['id']; ?>" required>
                         <div class="mb-3 mx-4">
-                            <label for="nome" class="form-label">Nome</label>
+                            <label for="nome" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
                             <input type="text" class="form-control" name="nome" id="nome" value="<?php echo $curso['nome']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <label for="comeco" class="form-label">Hora de Inicio</label>
+                            <label for="comeco" class="form-label">Hora de Inicio<span class="text-danger fw-bold">*</span></label>
                             <input type="time" class="form-control" name="comeco" id="comeco" value="<?php echo $curso['horaInicio']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <label for="fim" class="form-label">Hora de Término</label>
+                            <label for="fim" class="form-label">Hora de Término<span class="text-danger fw-bold">*</span></label>
                             <input type="time" class="form-control" name="fim" id="fim" value="<?php echo $curso['horaFinal']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <label for="descricao" class="form-label">Descrição</label>
+                            <label for="descricao" class="form-label">Descrição<span class="text-danger fw-bold">*</span></label>
                             <input type="text" class="form-control" name="descricao" id="descricao" value="<?php echo $curso['descricao']; ?>" required>
                         </div>
                         <div class="mb-3 mx-4">
-                            <label for="dias" class="form-label">Dias</label>
+                            <label for="dias" class="form-label">Dias<span class="text-danger fw-bold">*</span></label>
                             <select name="dias" id="dias" class="form-select" required>
                                 <option value="">Selecione</option>
-                                <option value="Seg/Qua" <?php if($curso['dias'] == 'Seg/Qua'){ echo 'selected';} ?>>Seg/Qua</option>
-                                <option value="Ter/Qui" <?php if($curso['dias'] == 'Ter/Qui'){ echo 'selected';} ?>>Ter/Qui</option>
+                                <option value="Seg/Qua" <?php if ($curso['dias'] == 'Seg/Qua') {
+                                                            echo 'selected';
+                                                        } ?>>Seg/Qua</option>
+                                <option value="Ter/Qui" <?php if ($curso['dias'] == 'Ter/Qui') {
+                                                            echo 'selected';
+                                                        } ?>>Ter/Qui</option>
                             </select>
                         </div>
                         <div class="mb-3 mx-4">
-                            <span class="form-label">Instrutor</span>
-                            <select class="form-select" name="instrutor" required>
+                            <label for="instrutor" class="form-label">Instrutor<span class="text-danger fw-bold">*</span></label>
+                            <select class="form-select" id="instrutor" name="instrutor" required>
                                 <option value="">Selecione</option>
                                 <?php
                                 $sql = "SELECT * FROM instrutores;";
@@ -186,28 +195,28 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastrar curso</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <a href='cursos.php' class='btn-close'></a>
             </div>
             <div class="modal-body">
                 <form action="cadastrar.php" method="post" data-parsley-validate novalidate>
                     <div class="mb-3 mx-4">
-                        <label for="nome" class="form-label">Nome</label>
+                        <label for="nome" class="form-label">Nome<span class="text-danger fw-bold">*</span></label>
                         <input type="text" class="form-control" name="nome" id="nome" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="comeco" class="form-label">Hora de Inicio</label>
+                        <label for="comeco" class="form-label">Hora de Inicio<span class="text-danger fw-bold">*</span></label>
                         <input type="time" class="form-control" name="comeco" id="comeco" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="fim" class="form-label">Hora de Término</label>
+                        <label for="fim" class="form-label">Hora de Término<span class="text-danger fw-bold">*</span></label>
                         <input type="time" class="form-control" name="fim" id="fim" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="descricao" class="form-label">Descrição</label>
+                        <label for="descricao" class="form-label">Descrição<span class="text-danger fw-bold">*</span></label>
                         <input type="text" class="form-control" name="descricao" id="descricao" required>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="dias" class="form-label">Dias</label>
+                        <label for="dias" class="form-label">Dias<span class="text-danger fw-bold">*</span></label>
                         <select name="dias" id="dias" class="form-select" required>
                             <option value="">Selecione</option>
                             <option value="Seg/Qua">Seg/Qua</option>
@@ -215,7 +224,7 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </select>
                     </div>
                     <div class="mb-3 mx-4">
-                        <label for="instrutor" class="form-label">Instrutor</label>
+                        <label for="instrutor" class="form-label">Instrutor<span class="text-danger fw-bold">*</span></label>
                         <a href="../instrutor/instrutores.php"><i class="fa-solid fa-user-plus"></i></a>
                         <select class="form-select" id="instrutor" name="instrutor" required>
                             <option value="">Selecione</option>
@@ -229,9 +238,9 @@ $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             }
                             ?>
                         </select>
-                        
-                        
-                        
+
+
+
                     </div>
             </div>
             <div class="modal-footer">

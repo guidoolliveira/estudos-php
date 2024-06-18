@@ -8,5 +8,6 @@ if(isset($_POST["id"]) && $nome = $_POST["nome"]) {
     $stmt->bindValue(":id", $id);
     $stmt->execute();
     header("Location: ../instrutor/instrutores.php?nome-especializacao=$nome&deletar=ok");
-
-}
+}else {
+    header("Location: ../instrutor/instrutores.php?alerta=preencher-campos");
+  }

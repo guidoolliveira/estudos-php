@@ -22,7 +22,7 @@ if ($_SESSION["acesso"] == 1) {
     </div>
     <div class="<?php echo $tamanhoCol; ?> col-md-6">
       <div class="card bg-warning bg-gradient text-white mb-4">
-        <div class="card-body">Intrutores</div>
+        <div class="card-body">Instrutores</div>
         <div class="card-footer d-flex align-items-center justify-content-between">
           <a class="small text-white stretched-link" href="cruds/instrutor/instrutores.php">Ver Detalhes</a>
           <div class="small text-white"><i class="fas fa-angle-right"></i></div>

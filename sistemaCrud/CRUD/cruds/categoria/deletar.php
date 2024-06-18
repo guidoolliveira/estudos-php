@@ -7,6 +7,7 @@ if(isset($_POST["id"]) && $nome = $_POST["nome"]) {
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
-    header("Location: ../produto/produtos.php?alerta=deletadoCategori&nome-categoria=$nome");
-
-}
+    header("Location: ../produto/produtos.php?alerta=deletadoCategoria&nome-categoria=$nome");
+}else {
+    header("Location:  ../produto/produtos.php?alerta=preencher-campos");
+  }

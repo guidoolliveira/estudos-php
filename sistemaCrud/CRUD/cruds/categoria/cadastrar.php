@@ -8,6 +8,5 @@ if (isset($_POST["nomeCategoria"]) && !empty($_POST["nomeCategoria"])) {
     $stmt->execute();
     header("Location: ../produto/produtos.php?alerta=cadastroCategoria&nome-categoria=$nomeCategoria");
 }else{  
-    // Campos nao preenchidos
     header("Location:  ../produto/produtos.php?alerta=preencher-campos");
 }

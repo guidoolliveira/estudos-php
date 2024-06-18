@@ -11,5 +11,4 @@ if(isset($_POST["id"]) && $nome = $_POST["nome"]) {
   header("Location: ../instrutor/instrutores.php?alerta=editadoEspecializacao&nome-especializacao=$nome");
 } else {
   header("Location: ../instrutor/instrutores.php?alerta=preencher-campos");
-  
 }

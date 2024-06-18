@@ -9,6 +9,5 @@ isset($_POST["nomeEspecializacao"]) && !empty($_POST["nomeEspecializacao"])) {
     $stmt->execute();
     header("Location: ../instrutor/instrutores.php?alerta=cadastroEspecializacao&nome-especializacao=$nomeEspecializacao");
 }else{
-    // Campos nao preenchidos
     header("Location:  ../instrutor/instrutores.php?alerta=preencher-campos");
 }

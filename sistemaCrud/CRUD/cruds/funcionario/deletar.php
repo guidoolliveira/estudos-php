@@ -8,8 +8,7 @@ if(isset($_POST["id"])) {
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":id", $id);
     $stmt->execute();
-    header("Location: funcionarios.php?nome-funcionario=$nome&deletar=ok");
-
-}else{
-    header("Location: funcionarios.php?nome-funcionario=$nome&deletar=erro");
+    header("Location: funcionarios.php?alerta=deletadoFuncionario&nome-funcionario=$nome");
+} else {
+  header("Location: funcionarios.php?alerta=preencher-campos");
 }

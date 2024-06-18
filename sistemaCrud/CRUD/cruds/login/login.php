@@ -1,14 +1,18 @@
-<!-- erro 1 = dados-invalidos -->
-<!-- erro 2 = preencha-todos-os-campos -->
 <?php
 require "../template/header.php"; 
-if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
-    echo "<div style='top: 2rem' class='my-5 position-absolute start-50 translate-middle'>
-            <div class='alert alert-danger alert-dismissible fade show fw-semibold text-center' role='alert'>
-                Preencha todos os campos!
-                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-            </div>
-        </div>";
+
+if (isset($_GET["alerta"])) {
+    $corAlerta = "";
+    $mensagemAlerta = "";
+    if ($_GET["alerta"] == "preencher-campos") {
+        $corAlerta = "danger";
+        $mensagemAlerta = "Preencha todos os campos!";
+    }
+    echo "
+  <div class='alert alert-$corAlerta alert-dismissible fade show fw-semibold text-center' role='alert'>
+    <span>$mensagemAlerta</span>
+    <a href='login.php' class='btn-close'></a>
+  </div>";
 }
 ?>
 <section class="vh-100">
@@ -24,7 +28,7 @@ if (isset($_GET["erro"]) && $_GET["erro"] == "2") {
                 <div class="text-center mb-2">
                 <span class="corErro">
                             <?php
-                            if (isset($_GET["erro"]) && $_GET["erro"] == "1") {
+                            if (isset($_GET["alerta"]) && $_GET["alerta"] == "login-ou-senha-incorretos") {
                                 echo "<i class='fa-solid fa-circle-exclamation'></i> Login ou Senha incorretos.";
                             }
                             ?>
