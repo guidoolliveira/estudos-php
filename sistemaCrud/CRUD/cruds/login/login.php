@@ -36,13 +36,13 @@ if (isset($_GET["alerta"])) {
                     </div>
                 <form action="logar.php" method="post" data-parsley-validate novalidate>
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="login">Email ou Usuário</label>
+                        <label class="form-label" for="login">Email ou Usuário<span class="text-danger fw-bold">*</span></label>
                         <input type="text" id="login" name="login" class="form-control form-control-lg"
                             placeholder="Digite seu e-mail ou usuário" required>
                         
                     </div>
                     <div class="form-outline mb-3">
-                        <label class="form-label" for="senha">Senha</label>
+                        <label class="form-label" for="senha">Senha<span class="text-danger fw-bold">*</span></label>
                         <input type="password" id="senha" name="senha" class="form-control form-control-lg"
                             placeholder="Digite a senha" required>
 
